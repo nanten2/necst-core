@@ -44,7 +44,7 @@ class db_logger(object):
         return
 
     def callback_flag(self, req):
-        self.flag = req.data.upper()
+        self.db_path = req.data
         return
 
     def log(self):
