@@ -79,7 +79,7 @@ class db_logger(object):
 if __name__ == '__main__':
     rospy.init_node(name)
     
-    logg = logger()
+    logg = db_logger()
     logg.start_thread()
 
     
