@@ -57,7 +57,7 @@ class db_logger(object):
             else: os.makedirs(self.db_path[:self.db_path.rfind('/')])
             self.db = necstdb.necstdb(self.db_path, len(self.topic_li))
             self.make_table()
-            print("DATABASE OPEN")
+            print('START RECORD')
             self.log_flag = True
 
             while self.db_path != '':
@@ -66,7 +66,7 @@ class db_logger(object):
 
             self.db.commit_data()
             self.db.close()
-            print("DATABASE CLOSE")
+            print("END RECORD")
             self.log_flag = False
         return
 
