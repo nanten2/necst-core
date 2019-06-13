@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-name = 'core_controller'
+node_name = 'core_controller'
 
 import rospy
 
@@ -38,7 +38,7 @@ class PS(object):
 class LOGGER(object):
 
     def __init__(self):
-        rospy.init_node(topic_name)
+        rospy.init_node(node_name)
         self.ps = PS()
 
     def start(self, db_path):
