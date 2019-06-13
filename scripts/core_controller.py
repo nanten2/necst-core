@@ -22,7 +22,7 @@ class PS(object):
         pass
 
     def publish(self, topic_name, msg):
-        self.pub[topic_name].pulish(msg)
+        self.pub[topic_name].publish(msg)
         return
 
     def set_publish(self, topic_name, data_class, queue_size, latch = True):
