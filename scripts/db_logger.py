@@ -2,7 +2,7 @@
 
 name = 'db_logger'
 
-import sys, os
+import os
 import time
 import datetime
 import threading
@@ -16,13 +16,13 @@ class db_logger(object):
     def __init__(self):
         self.db_path = ''
         self.log_flag = False
-        self.topic_li = self.make_topic_li()
+        self.topic_li = self.make_topic_list()
         self.msgtype_dict = {
             'std_msgs/Int32': std_msgs.msg.Int32,
             'std_msgs/Float64': std_msgs.msg.Float64,
         }
 
-    def make_topic_li(self):
+    def make_topic_list(self):
         topic_li = []
         _topic_li = rospy.get_published_topics()
         for i in range(len(_topic_li)):
@@ -43,7 +43,7 @@ class db_logger(object):
         else: pass
         return
 
-    def callback_flag(self, req):
+    def callback_path(self, req):
         self.db_path = req.data
         return
 
@@ -83,19 +83,21 @@ if __name__ == '__main__':
     logg.start_thread()
 
     
-    flag = rospy.Subscriber(
-        name = '/logger_flag',
+    path = rospy.Subscriber(
+        name = '/logger_path',
         data_class = std_msgs.msg.String,
-        callback = logg.callback_flag,
+        callback = logg.callback_path,
         queue_size = 1,
     )
 
-    topic_from = [rospy.Subscriber(
-                name = logg.topic_li[i][0],
-                data_class = logg.msgtype_dict[logg.topic_li[i][1]],
-                callback = logg.callback_data,
-                callback_args = {'index': i },
-                queue_size = 1,
-            ) for i in range(len(logg.topic_li))]
+    topic_from = [
+        rospy.Subscriber(
+            name = logg.topic_li[i][0],
+            data_class = logg.msgtype_dict[logg.topic_li[i][1]],
+            callback = logg.callback_data,
+            callback_args = {'index': i },
+            queue_size = 1,
+        ) for i in range(len(logg.topic_li))
+    ]
 
     rospy.spin()
