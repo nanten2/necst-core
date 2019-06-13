@@ -53,8 +53,8 @@ class db_logger(object):
                 time.sleep(0.001)
                 continue
 
-            if os.path.exists(db_path[:path.rfind('/')]): pass
-            else: os.makedirs(db_path[:path.rfind('/')])
+            if os.path.exists(self.db_path[:path.rfind('/')]): pass
+            else: os.makedirs(self.db_path[:path.rfind('/')])
             self.db = necstdb.necstdb(self.db_path, len(self.topic_li))
             self.make_table()
             print("DATABASE OPEN")
