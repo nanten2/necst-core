@@ -27,7 +27,7 @@ class PS(object):
 
     def set_publish(self, topic_name, data_class, queue_size, latch = True):
         if topic_name not in self.pub:
-            self.pub[topic_name] = rospy.Publisher(topic_name = topic_name, data_class = data_class, queue_size = queue_size, latch = latch)
+            self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = queue_size, latch = latch)
             time.sleep(0.01)
 
         else:
