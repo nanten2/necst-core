@@ -95,5 +95,5 @@ ENV/
 .DS_Store
 
 # ROS
-CMakefile.txt
+CMakeLists.txt
 package.xml
