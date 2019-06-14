@@ -13,7 +13,7 @@ import std_msgs.msg
 
 class db_full(object):
 
-    def __init__(self):
+    def __init__(self,topic_list):
         self.db_path = ''
         self.log_flag = False
         self_msgtype_dict = {
@@ -21,21 +21,24 @@ class db_full(object):
                 'std_msgs/Float64': std_msgs.msg.Float64
                 }
 
-        self.topic_li = rospy.Subscriber(
+        self.path = rospy.Subscriber(
                 name = '/logger_path',
                 data_class = std_msgs.msg.String,
                 callback = db_full.callback_path
                 queue_size = 1,
                 )
 
-    def func1(self):
-
+    def func1(self,arg):
+        argslist = []
+        
 
     def callback_path(self,req):
         self.db_path = req.data
         return
 
     def loop(self):
+        
+
         while not rospy.is_shutdown():
             while self.db_path == '':
                 while not rospy.is_shutdown():
