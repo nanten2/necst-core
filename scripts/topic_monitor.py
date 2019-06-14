@@ -74,7 +74,6 @@ class topic_monitor(object):
             elif self.topic_li != now_topic_li:
                 self.topic_li = now_topic_li
                 self.make_sub()
-                print("b")
 
     def thread(self):
         th = threading.Thread(target=self.compare_topic)
