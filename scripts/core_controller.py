@@ -41,7 +41,7 @@ class make_pub(object):
 class logger(object):
 
     def __init__(self):
-        self.ps = PS()
+        self.make_pub = make_pub()
 
     def start(self, db_path):
         topic_name = '/logger_path'
