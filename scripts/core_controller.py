@@ -41,7 +41,6 @@ class make_pub(object):
 class logger(object):
 
     def __init__(self):
-        rospy.init_node(node_name)
         self.ps = PS()
 
     def start(self, db_path):
