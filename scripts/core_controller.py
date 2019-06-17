@@ -11,17 +11,20 @@ import std_msgs.msg
 class controller(object):
 
     def __init__(self):
-        self.ps = PS()
-        self.logger = LOGGER()
+        self.logger = logger()
 
 
-class PS(object):
+class make_pub(object):
 
     def __init__(self):
         self.pub = {}
         pass
 
-    def publish(self, topic_name, msg):
+    def publish(self, topic_name, data_class, msg):
+        if topic_name not in self.pub:
+            self.set_publisher(topic_name = topic_name, data_class = data_class)
+            pass
+
         self.pub[topic_name].publish(msg)
         return
 
@@ -35,11 +38,10 @@ class PS(object):
         return
 
 
-class LOGGER(object):
+class logger(object):
 
     def __init__(self):
-        rospy.init_node(node_name)
-        self.ps = PS()
+        self.make_pub = make_pub()
 
     def start(self, db_path):
         topic_name = '/logger_path'
