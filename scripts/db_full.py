@@ -13,14 +13,13 @@ import std_msgs.msg
 
 class db_full(object):
 
-    def __init__(self,topic_list):
+    def __init__(self):
         self.db_path = ''
         self.log_flag = False
-        self.arg = topic_list
         self.path = rospy.Subscriber(
                 name = '/logger_path',
                 data_class = std_msgs.msg.String,
-                callback = db_full.callback_path
+                callback = self.callback_path
                 queue_size = 1,
                 )
       
@@ -31,14 +30,15 @@ class db_full(object):
     def callback_path(self,req):
         self.db_path = req.data
         return
-
+return
     def loop(self):
         while not rospy.is_shutdown():
-        a = arglist.pop[0]
             while self.db_path == '':
-               while not rospy.is_shutdown():
+                 while not rospy.is_shutdown():
+                    a = arglist.pop[0]
                     time.sleep(0.001)
-                    continue
+                    break
+                 continue
 
             if os.path.exits(self.db_path[:self.db_path.rfind('/')]):pass
             else: os.makedirs(self.db_path[:self.db_path.rfind('/')])
@@ -47,7 +47,8 @@ class db_full(object):
             while self.db_path != '':
                 while not rospy.is_shutdown():
                     time.sleep(0.001)
-                    continue
+                    break
+                continue
             
            self.db.close()
         return
