@@ -28,12 +28,10 @@ class make_pub(object):
         self.pub[topic_name].publish(msg)
         return
 
-    def set_publish(self, topic_name, data_class, queue_size, latch = True):
+    def set_publish(self, topic_name, data_class):
         if topic_name not in self.pub:
-            self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = queue_size, latch = latch)
+            self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = 1, latch = False)
             time.sleep(0.01)
-
-        else:
             pass
         return
 
@@ -45,14 +43,12 @@ class logger(object):
 
     def start(self, db_path):
         topic_name = '/logger_path'
+        data_class = std_msgs.msg.String
 
-        self.ps.set_publish(topic_name = topic_name, data_class = std_msgs.msg.String, queue_size = 1, latch = True)
-
-        self.ps.publish(topic_name = topic_name, msg = db_path)
+        self.make_pub.publish(topic_name = topic_name, data_class = data_class,　msg = db_path)
 
     def stop(self):
         topic_name = '/logger_path'
+        data_class = std_msgs.msg.String
 
-        self.ps.set_publish(topic_name = topic_name, data_class = std_msgs.msg.String, queue_size = 1, latch = True)
-
-        self.ps.publish(topic_name = topic_name, msg = '')
+        self.make_pub.publish(topic_name = topic_name, data_class = data_class, msg = '')
