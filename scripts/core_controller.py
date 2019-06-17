@@ -32,8 +32,6 @@ class make_pub(object):
         if topic_name not in self.pub:
             self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = 1, latch = False)
             time.sleep(0.01)
-
-        else:
             pass
         return
 
