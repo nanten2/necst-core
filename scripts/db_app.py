@@ -41,22 +41,24 @@ class db_app(object):
         return
 
     def loop(self):
-        while len(arglist) !=0:
-            if os.path.exits(self.dbpath[:self.dbpath.rfind('/')]):pass
-            else: os.makedirs(self.dbpath[:self.dbpath.rfind('/')])
+        while not rospy.is_shutdown():
+            while len(arglist) !=0:
+                if os.path.exits(self.dbpath[:self.dbpath.rfind('/')]):pass
+                else: os.makedirs(self.dbpath[:self.dbpath.rfind('/')])
           
-            a = arglist.pop[0]
-            self.db =necstdb.necstdb(self.dbpath,len(a))
-            self.db.write(topic_name,data,self.dppath)
-
-          continue
-
-         self.path =''
-
-         if rospy.is_shutdown():
-             pass
-         else:
-             time.sleep(0.01)
+                a = arglist.pop[0]
+                a_topic = [topic[0] for topic in a]
+                self.db =necstdb.necstdb(self.dbpath,len(a),'"'+a_topic+'"',"",(a.data,time.time()),
+                                    cur_num = len(a),auto_commit = False)
+                
+                if len(arglist) ==0:
+                    del self.db
+                    self.dbpath =''
+                else:pass
+                continue
+            
+            time.sleep(0.01)
+            continue
          return
 
             
