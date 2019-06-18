@@ -11,54 +11,66 @@ import necstdb
 import rospy
 import std_msgs.msg
 
-class db_app(object):
+class db_logger_operation(object):
 
     def __init__(self):
+        self.data_list = []
         self.db_path = ''
-        self.path = rospy.Subsciber(
-                name = '/logger_path',
-                data_class = std_msgs.msg.String,
-                callback = self.callback_path,
-                queue_size = 1,
-                )
+        self.db = necstdb.necstdb()
+        self.sub_path = rospy.Subsciber(
+            name = '/logger_path',
+            data_class = std_msgs.msg.String,
+            callback = self.callback_path,
+            queue_size = 1,
+        )
         self.th = threading.Thread(target=self.loop)
         self.th.start()
-    
+        pass
 
 
-    def callback_path(self,req):
+    def callback_path(self, req):
         if req.data =='':
-            self.flag = False
+            self.action_flag = False
+   
         else:
-            self.flag = True
-            self.dbpath = req.data
+            if self.dp_path == '':
+                self.action_flag = True
+                self.db_path = req.data
+            else:
+                # angry code    
+                pass
+                   
+            pass 
+        return
 
-    def func1(self,arg):
-        if self.flag:
-            arglist = arglist.append(arg)
-
-        else:pass
+    def regist(self, data):
+        if self.action_flag:
+            self.data_list.append(data)
+            pass
+      
         return
 
     def loop(self):
-        while not rospy.is_shutdown():
-            while len(arglist) !=0:
-                if os.path.exits(self.dbpath[:self.dbpath.rfind('/')]):pass
-                else: os.makedirs(self.dbpath[:self.dbpath.rfind('/')])
-          
-                a = arglist.pop[0]
-                a_topic = [topic[0] for topic in a]
-                self.db =necstdb.necstdb(self.dbpath,len(a),'"'+a_topic+'"',"",(a.data,time.time()),
-                                    cur_num = len(a),auto_commit = False)
-                
-                if len(arglist) ==0:
-                    del self.db
-                    self.dbpath =''
-                else:pass
+        while True:    
+            if len(self.data_list) == 0:
+                if self.action_flag == False:
+                    self.db.finalize()
+                    self.db_path = ''
+                    pass
+                    
+                if rospy.is_shutdown():
+                    break
+                time.sleep(0.01)
                 continue
-            
-            time.sleep(0.01)
-            continue
-         return
+
+            d = self.data_list.pop(0)
+            # if os.path.exits(self.dbpath[:self.dbpath.rfind('/')]):pass
+            # else: os.makedirs(self.dbpath[:self.dbpath.rfind('/')]) 
+            # self.db =necstdb.necstdb(self.dbpath,len(data))
+            self.db.insert(self.db_path, d['topic_name'], d['msg'])
+            continue 
+
+        self.db.finalize()
+        return            
 
             
