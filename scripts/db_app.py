@@ -2,9 +2,6 @@
 
 name  = 'db_app'
 
-import os
-import time
-import datetime
 import threading
 import necstdb
 
