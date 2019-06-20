@@ -20,7 +20,7 @@ class db_logger_operation(object):
             callback = self.callback_path,
             queue_size = 1,
         )
-        self.th = threading.Thread(target=self.loop)
+        self.th = threading.Thread(target= self.loop)
         self.th.start()
         pass
 
