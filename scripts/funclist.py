@@ -3,17 +3,13 @@
 import db_logger_operation
 #import topic_monitor
 
-class funclist(self):
-    
-    def __init__(self):
+db_logger_operation = db_logger_operation.db_logger_operation()
+#topic_monitor = topic_monitor.topic_monitor()
+#web_monitor = web_monitor.web_monitor()
 
-        self.db_logger_operation = db_logger_operation.db_logger_operation()
-        #self.topic_monitor = topic_monitor.topic_monitor()
-        #self.web_monitor = web_monitor.web_monitor()
-
-    def funcli(self, data):
-        funcli =[self.db_logger_operation.regist(data),]
-                #self.topic_monitor.regist(data),
-                #self.web_monitor.web_monitor.regist(data)]
-        return funcli
+def func_li(data):
+    func_li =[db_logger_operation.regist(data),]
+    #topic_monitor.regist(data),
+    #web_monitor.web_monitor.regist(data)]
+    return func_li
 
