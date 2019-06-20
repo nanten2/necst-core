@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+name = 'logger'
+
 import time
 import threading
 import funclist
@@ -23,18 +25,19 @@ def make_topic_list():
 def callback_data(req, arg):
     data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
     #'msgs': {'data': req.data,'time': req.timestamp}
-    for f in funclist.funclist
-        f(data)
+    for f in funcli.funcli(data):
+        f
     return
 
-def start_thread()
+def start_thread():
     th = threading.Thread(target = make_topic_list)
     th.setDeamon(True)
     th.start()
 
-if  __name __ == '__main__'
+if __name__ == '__main__':
     rospy.init_node(name)
     
+    funcli = funclist.funclist()
     start_thread()
     
     msgtype_dict = {'std_msgs/Int32': std_msgs.msg.Int32,
@@ -43,9 +46,9 @@ if  __name __ == '__main__'
     topic_form = [
        rospy.Subscriber(
           name = topic_li[i][0],
-          data = msgtype_dict[topic_li[i][0]]
-          callback = callback_data
-          callback_args = topic_li[i][0]
+          data = msgtype_dict[topic_li[i][0]],
+          callback = callback_data,
+          callback_args = topic_li[i][0],
           queue_size = 1
        ) for i in range(len(topic_li))
     ]
