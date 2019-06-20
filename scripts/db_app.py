@@ -29,34 +29,21 @@ class db_logger_operation(object):
 
 
     def callback_path(self, req):
-        if req.data =='':
-            self.action_flag = False
-   
-        else:
-            if self.dp_path == '':
-                self.action_flag = True
-                self.db_path = req.data
-            else:
-                # angry code    
-                pass
-                   
-            pass 
+        self.db_path = req.data
         return
 
     def regist(self, data):
-        if self.action_flag:
-            self.data_list.append(data)
-            pass
+        if self.db_path != '':
+            self.data_list.append({'path': self.dp_path, 'data': data})
+        else: pass
       
         return
 
     def loop(self):
         while True:    
             if len(self.data_list) == 0:
-                if self.action_flag == False:
-                    self.db.finalize()
-                    self.db_path = ''
-                    pass
+                self.db.finalize()
+                pass
                     
                 if rospy.is_shutdown():
                     break
@@ -67,10 +54,8 @@ class db_logger_operation(object):
             # if os.path.exits(self.dbpath[:self.dbpath.rfind('/')]):pass
             # else: os.makedirs(self.dbpath[:self.dbpath.rfind('/')]) 
             # self.db =necstdb.necstdb(self.dbpath,len(data))
-            self.db.insert(self.db_path, d['topic_name'], d['msg'])
+            self.db.insert(d)
             continue 
-
-        self.db.finalize()
         return            
 
             
