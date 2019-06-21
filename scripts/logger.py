@@ -10,7 +10,6 @@ import rospy
 import std_msgs.msg
 
 def make_topic_list():
-    global topic_li
     topic_li = []
     _topic_li = rospy.get_published_topics()
     for i in range(len(_topic_li)):
@@ -23,7 +22,6 @@ def make_topic_list():
 def compare_topic_list():
     while not rospy.is_shutdown():
         new_topic_li = make_topic_list()
-
         global topic_li
         if topic_li == new_topic_li:
             print("pass")
