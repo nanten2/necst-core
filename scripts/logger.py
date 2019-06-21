@@ -18,8 +18,8 @@ def make_topic_list():
         elif _topic_li[i][0] == '/rosout_agg': pass
         else: topic_li.append(_topic_li[i])
     return topic_li
-    
-    
+
+
 def compare_topic_list():
     while not rospy.is_shutdown():
         new_topic_li = make_topic_list()
@@ -32,15 +32,15 @@ def compare_topic_list():
             make_Subscriber()
 
 def make_Subscriber():
-    topic_form =[ 
+    global topic_li
+    for i in range(len(topic_li))
         rospy.Subscriber(
             name = topic_li[i][0],
             data = msgtype_dict[topic_li[i][1]],
             callback = callback,
             callback_args = topic_li[i][0],
-            queue_size = 1
-        ) for i in range(len(topic_li))
-    ]
+            queue_size = 1)
+
 
 
 
@@ -58,8 +58,8 @@ def start_thread():
 
 if __name__ == '__main__':
     rospy.init_node(name)
-    
-    topic_li = []
+
+    topic_li = make_topic_list()
     start_thread()
 
 

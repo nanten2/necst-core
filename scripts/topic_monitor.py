@@ -23,7 +23,6 @@ class topic_monitor(object):
 
     def loop(self):
         while not rospy.is_shutdown():
-
             num = len(self.data_list)
             for i in range(num):
                 print("------------------")
