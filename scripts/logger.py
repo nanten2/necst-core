@@ -2,9 +2,12 @@
 
 name = 'logger'
 
+print("a")
 import time
 import threading
+print("b")
 import funclist
+print("c")
 
 import rospy
 import std_msgs.msg
