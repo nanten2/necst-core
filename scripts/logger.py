@@ -33,7 +33,7 @@ def compare_topic_list():
 
 def make_Subscriber():
     global topic_li
-    for i in range(len(topic_li))
+    for i in range(len(topic_li)):
         rospy.Subscriber(
             name = topic_li[i][0],
             data = msgtype_dict[topic_li[i][1]],
