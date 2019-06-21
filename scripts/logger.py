@@ -25,12 +25,13 @@ def compare_topic_list():
         new_topic_li = make_topic_list()
         global topic_li
         if topic_li == new_topic_li:
+            print("pass")
             pass
 
         elif topic_li != new_topic_li:
             topic_li = new_topic_li
-
             make_Subscriber()
+            print("make sub")
 
 
 def make_Subscriber():
