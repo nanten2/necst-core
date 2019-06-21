@@ -27,7 +27,8 @@ class topic_monitor(object):
     def loop(self):
         while not rospy.is_shutdown():
             print("------------------")
-            for l in list(self.topic_dic):
+            li = list(self.topic_dic)
+            for l in sorted(li):
                 time.sleep(0.1)
                 data = self.topic_dic[l]
                 print(l+" : %s"%(data))
