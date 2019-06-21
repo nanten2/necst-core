@@ -23,6 +23,7 @@ def make_topic_list():
 def compare_topic_list():
     while not rospy.is_shutdown():
         new_topic_li = make_topic_list()
+        print(new_topic_li)
         global topic_li
         if topic_li == new_topic_li:
             print("pass")
