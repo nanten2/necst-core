@@ -29,7 +29,7 @@ class topic_monitor(object):
             print("------------------")
             if num != 0:
                 for i in range(num):
-                    time.sleep(0.5)
+                    time.sleep(0.01)
 
                     dic = self.data_list[i]
                     topic = dic["topic"]
