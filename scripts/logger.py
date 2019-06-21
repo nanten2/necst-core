@@ -38,7 +38,7 @@ def make_Subscriber():
     for i in range(len(topic_li)):
         rospy.Subscriber(
             name = topic_li[i][0],
-            data = msgtype_dict[topic_li[i][1]],
+            data_class = msgtype_dict[topic_li[i][1]],
             callback = callback,
             callback_args = topic_li[i][0],
             queue_size = 1)
@@ -47,9 +47,7 @@ def callback(req, arg):
     data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
     #'msgs': {'data': req.data,'time': req.timestamp}
     for f in funclist.func_li:
-        print("1111")
         f(data)
-        print("22222")
     return
 
 def start_thread():
