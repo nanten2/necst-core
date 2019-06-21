@@ -30,7 +30,7 @@ def compare_topic_list():
         if topic_li == new_topic_li:
             pass
 
-        elif topic_li >= new_topic_li:
+        elif topic_li != new_topic_li:
             topic_li = new_topic_li
             print("5")
             make_Subscriber()
