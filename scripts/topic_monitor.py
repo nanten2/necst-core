@@ -23,9 +23,10 @@ class topic_monitor(object):
 
     def loop(self):
         while not rospy.is_shutdown():
-            print("------------------")
+
             num = len(self.data_list)
             for i in range(num):
+                print("------------------")
                 dic = self.data_list[i]
                 topic = dic["topic"]
                 data = dic["data"]
