@@ -12,7 +12,7 @@ import std_msgs.msg
 class topic_monitor(object):
 
     def __init__(self):
-        self.data_list = [] #[{topic:,data:,time:,}]
+        self.topic_dic = {} #[{topic:,data:,time:,}]
         self.th = threading.Thread(target= self.loop)
         self.th.start()
         print("tmmonitor")
@@ -20,22 +20,19 @@ class topic_monitor(object):
 
 
     def regist(self, data):
-        self.data_list.append(data)
+        #data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
+        topic_dic[data["topic"]] = data["msgs"]["data"]
         return
 
     def loop(self):
         while not rospy.is_shutdown():
-            num = len(self.data_list)
+            li = topic_dic.keys()
             print("------------------")
-            if num != 0:
-                for i in range(num):
-                    time.sleep(0.01)
-
-                    dic = self.data_list[i]
-                    topic = dic["topic"]
-                    data = dic["msgs"]["data"]
-                    print(topic+" : %s"%(data))
-                    self.data_list.remove(dic)
+            for l in li:
+                time.sleep(0.01)
+                data = topic_dic[l]
+                print(l+" : %s"%(data))
+                #self.data_list.remove(dic)
             else:
                 pass
             continue
