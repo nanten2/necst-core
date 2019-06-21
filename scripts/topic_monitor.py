@@ -30,7 +30,7 @@ class topic_monitor(object):
 
             print("------------------")
             for l in li:
-                time.sleep(0.01)
+                time.sleep(0.1)
                 data = self.topic_dic[l]
                 print(l+" : %s"%(data))
                 #self.data_list.remove(dic)
