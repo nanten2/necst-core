@@ -6,6 +6,7 @@ name = 'topic_monitor'
 import threading
 
 import rospy
+import time
 import std_msgs.msg
 
 class topic_monitor(object):
@@ -27,6 +28,7 @@ class topic_monitor(object):
         while not rospy.is_shutdown():
             num = len(self.data_list)
             for i in range(num):
+                time.sleep(0.5)
                 print("------------------")
                 dic = self.data_list[i]
                 topic = dic["topic"]
