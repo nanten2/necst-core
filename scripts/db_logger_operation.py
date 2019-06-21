@@ -2,6 +2,7 @@
 
 name  = 'db_logger_operation'
 
+import time
 import threading
 import necstdb
 
@@ -14,13 +15,15 @@ class db_logger_operation(object):
         self.data_list = []
         self.db_path = ''
         self.db = necstdb.necstdb()
-        self.sub_path = rospy.Subsciber(
+        self.sub_path = rospy.Subscriber(
             name = '/logger_path',
             data_class = std_msgs.msg.String,
             callback = self.callback_path,
             queue_size = 1,
         )
+        
         self.th = threading.Thread(target= self.loop)
+
         self.th.start()
         pass
 
@@ -37,6 +40,7 @@ class db_logger_operation(object):
         return
 
     def loop(self):
+       
         while True:    
             if len(self.data_list) == 0:
                 self.db.finalize()
@@ -55,4 +59,4 @@ class db_logger_operation(object):
             continue 
         return            
 
-            
+        
