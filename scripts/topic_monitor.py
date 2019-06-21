@@ -21,16 +21,17 @@ class topic_monitor(object):
 
     def regist(self, data):
         #data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
-        topic_dic[data["topic"]] = data["msgs"]["data"]
+        self.topic_dic[data["topic"]] = data["msgs"]["data"]
         return
 
     def loop(self):
         while not rospy.is_shutdown():
-            li = topic_dic.keys()
+            li = self.topic_dic.keys()
+
             print("------------------")
             for l in li:
                 time.sleep(0.01)
-                data = topic_dic[l]
+                data = self.topic_dic[l]
                 print(l+" : %s"%(data))
                 #self.data_list.remove(dic)
             else:
