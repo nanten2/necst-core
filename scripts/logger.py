@@ -31,6 +31,7 @@ def compare_topic_list():
             topic_li = new_topic_li
             print("5")
             make_Subscriber()
+            pritnt(topic_li)
             print("make sub")
 
 
