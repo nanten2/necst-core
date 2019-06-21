@@ -14,6 +14,7 @@ class topic_monitor(object):
         self.data_list = [] #[{topic:,data:,time:,}]
         self.th = threading.Thread(target= self.loop)
         self.th.start()
+        print("tmmonitor")
         pass
 
 

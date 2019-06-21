@@ -24,7 +24,6 @@ def compare_topic_list():
         new_topic_li = make_topic_list()
         global topic_li
         if topic_li == new_topic_li:
-            print("pass")
             pass
 
         elif topic_li != new_topic_li:
@@ -47,7 +46,7 @@ def callback(req, arg):
     data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
     #'msgs': {'data': req.data,'time': req.timestamp}
     for f in funclist.func_li:
-        f
+        
         f(data)
     return
 
