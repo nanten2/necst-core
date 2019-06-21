@@ -30,7 +30,7 @@ class topic_monitor(object):
                 print("------------------")
                 dic = self.data_list[i]
                 topic = dic["topic"]
-                data = dic["data"]
+                data = dic["msgs"]
                 print(topic+" : %s"%(data))
 
             continue
