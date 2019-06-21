@@ -9,7 +9,7 @@ topic_monitor = topic_monitor.topic_monitor()
 #web_monitor = web_monitor.web_monitor()
 
 def func_li(data):
-    func_li = [db_logger_operation.regist(data),
+    func_li = [#db_logger_operation.regist(data),
                topic_monitor.regist()]
                #web_monitor.web_monitor.regist()]
     return func_li
