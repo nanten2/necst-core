@@ -22,11 +22,11 @@ def make_topic_list():
 #    if last_topic_list == new_topic_list: topic_list = new_topic_list
 #    else:
 
-def callback_data(req, arg):
+def callback(req, arg):
     data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
     #'msgs': {'data': req.data,'time': req.timestamp}
-    for f in funcli.funcli(data):
-        f
+    for f in funclist.func_li:
+        f(data)
     return
 
 def start_thread():
@@ -37,9 +37,8 @@ def start_thread():
 if __name__ == '__main__':
     rospy.init_node(name)
     
-    funcli = funclist.funclist()
     start_thread()
-    
+
     msgtype_dict = {'std_msgs/Int32': std_msgs.msg.Int32,
                     'std_msgs/Float64': std_msgs.msg.Float64}
     
@@ -47,7 +46,7 @@ if __name__ == '__main__':
        rospy.Subscriber(
           name = topic_li[i][0],
           data = msgtype_dict[topic_li[i][0]],
-          callback = callback_data,
+          callback = callback,
           callback_args = topic_li[i][0],
           queue_size = 1
        ) for i in range(len(topic_li))
