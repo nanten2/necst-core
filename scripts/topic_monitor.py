@@ -27,12 +27,11 @@ class topic_monitor(object):
         while not rospy.is_shutdown():
             num = len(self.data_list)
             for i in range(num):
-                print(self.data_list)
                 time.sleep(0.5)
                 print("------------------")
                 dic = self.data_list[i]
                 topic = dic["topic"]
-                data = dic["msgs"]
+                data = dic["msgs"]["data"]
                 print(topic+" : %s"%(data))
                 self.data_list.remove(dic)
 
