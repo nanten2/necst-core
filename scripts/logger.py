@@ -51,7 +51,8 @@ def callback(req, arg):
     print("9")
     data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
     #'msgs': {'data': req.data,'time': req.timestamp}
-    for f in funclist.func_li:
+    flist = funclist.func_li()
+    for f in flist:
         f(data)
     print("10")
     return
