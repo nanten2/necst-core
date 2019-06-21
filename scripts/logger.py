@@ -29,7 +29,7 @@ def compare_topic_list():
 
         elif topic_li != new_topic_li:
             topic_li = new_topic_li
-            global topic_li
+
             make_Subscriber()
 
 
