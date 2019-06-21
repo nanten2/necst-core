@@ -35,7 +35,7 @@ class topic_monitor(object):
                 topic = dic["topic"]
                 data = dic["msgs"]
                 print(topic+" : %s"%(data))
-                self.data_list.pop(self.data_list[i])
+                self.data_list.remove(dic)
 
             continue
         return
