@@ -21,7 +21,6 @@ class topic_monitor(object):
 
     def regist(self, data):
         self.data_list.append(data)
-        print("tptp")
         return
 
     def loop(self):
