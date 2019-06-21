@@ -4,7 +4,7 @@ import db_logger_operation
 import topic_monitor
 #import web_monitor
 
-db_logger_operation = db_logger_operation.db_logger_operation()
+#db_logger_operation = db_logger_operation.db_logger_operation()
 topic_monitor = topic_monitor.topic_monitor()
 #web_monitor = web_monitor.web_monitor()
 """
@@ -16,7 +16,15 @@ def func_li(data):
 """
 
 def func_li():
-    func_li = [db_logger_operation.regist,
+    func_li = [#db_logger_operation.regist,
                topic_monitor.regist]
                #web_monitor.web_monitor.regist()]
     return func_li
+
+"""
+def func_li2():
+    func_li2 = [#db_logger_operation.remove,
+               topic_monitor.remove]
+               #web_monitor.web_monitor.regist()]
+    return func_li2
+"""

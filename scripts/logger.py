@@ -30,13 +30,17 @@ def compare_topic_list():
         if topic_li == new_topic_li:
             pass
 
-        elif topic_li != new_topic_li:
+        elif topic_li >= new_topic_li:
             topic_li = new_topic_li
             print("5")
             make_Subscriber()
             print(topic_li)
             print("make sub")
-
+        """
+        elif topic_li < new_topic_li:
+            topic_li = new_topic_li
+            dec_Subscriber()
+        """
 
 def make_Subscriber():
     print("6")
@@ -50,7 +54,17 @@ def make_Subscriber():
             callback_args = topic_li[i][0],
             queue_size = 1)
         print("8")
-
+"""
+def dec_Subscriber():
+    global topic_li
+    for i in range(len(topic_li)):
+        rospy.Subscriber(
+            name = topic_li[i][0],
+            data_class = msgtype_dict[topic_li[i][1]],
+            callback = callback2,
+            callback_args = topic_li[i][0],
+            queue_size = 1)
+"""
 def callback(req, arg):
     print("9")
     data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
@@ -60,6 +74,15 @@ def callback(req, arg):
         f(data)
     print("10")
     return
+"""
+def callback2(req, arg):
+    data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
+    #'msgs': {'data': req.data,'time': req.timestamp}
+    flist2 = funclist.func_li2()
+    for f in flist:
+        f(data)
+    return
+"""
 
 def start_thread():
     print("3")
@@ -68,6 +91,7 @@ def start_thread():
     th.start()
 
 if __name__ == '__main__':
+    print("d")
     rospy.init_node(name)
     print("1")
     topic_li = []
