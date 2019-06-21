@@ -28,8 +28,10 @@ def compare_topic_list():
             pass
 
         elif topic_li != new_topic_li:
-            topic_li =new_topic_li
+            topic_li = new_topic_li
+            global topic_li
             make_Subscriber()
+
 
 def make_Subscriber():
     global topic_li
@@ -40,9 +42,6 @@ def make_Subscriber():
             callback = callback,
             callback_args = topic_li[i][0],
             queue_size = 1)
-
-
-
 
 def callback(req, arg):
     data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
@@ -59,7 +58,7 @@ def start_thread():
 if __name__ == '__main__':
     rospy.init_node(name)
 
-    topic_li = make_topic_list()
+    topic_li = []
     start_thread()
 
 
