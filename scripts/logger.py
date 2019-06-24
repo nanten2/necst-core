@@ -23,13 +23,15 @@ def compare_topic_list():
     global topic_li
     while not rospy.is_shutdown():
         new_topic_li = make_topic_list()
-        if list(set(new_topic)-set(topic_li)) == []:
+        print(new_topic_li)
+        if list(set(new_topic_li)-set(topic_li)) == []:
             pass
-
-        elif list(set(new_topic)-set(topic_li)) != []:
-            a = list(set(new_topic)-set(topic_li))
+#taplenisuru
+        elif list(set(new_topic_li)-set(topic_li)) != []:
+            a = list(set(new_topic_li)-set(topic_li))
             make_Subscriber(a)
             topic_li.append(a)
+    return
         """
         elif topic_li < new_topic_li:
             topic_li = new_topic_li
@@ -79,7 +81,6 @@ def start_thread():
 
 if __name__ == '__main__':
     rospy.init_node(name)
-    global topic_li
     topic_li = []
     start_thread()
 
