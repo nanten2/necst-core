@@ -20,9 +20,9 @@ def make_topic_list():
 
 
 def compare_topic_list():
+    global topic_li
     while not rospy.is_shutdown():
         new_topic_li = make_topic_list()
-        global topic_li
         if topic_li == new_topic_li:
             pass
 
@@ -79,6 +79,7 @@ def start_thread():
 
 if __name__ == '__main__':
     rospy.init_node(name)
+    global topic_li
     topic_li = []
     start_thread()
 
