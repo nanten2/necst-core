@@ -34,7 +34,8 @@ class db_logger_operation(object):
 
     def regist(self, data):
         if self.db_path != '':
-            self.data_list.append({'path': self.dp_path, 'data': data})
+            self.data_list.append({'path': self.db_path, 'data': data})
+            print(data)
         else: pass
       
         return

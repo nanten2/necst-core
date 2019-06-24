@@ -28,8 +28,7 @@ def compare_topic_list():
 
         elif topic_li != new_topic_li:
             topic_li = new_topic_li
-            make_Subscriber()
-            print(topic_li)
+            make_Subscriber(topic_li)
 
         """
         elif topic_li < new_topic_li:
@@ -37,8 +36,7 @@ def compare_topic_list():
             dec_Subscriber()
         """
 
-def make_Subscriber():
-    global topic_li
+def make_Subscriber(topic_li):
     for i in range(len(topic_li)):
         rospy.Subscriber(
             name = topic_li[i][0],
@@ -85,5 +83,6 @@ if __name__ == '__main__':
     start_thread()
 
     msgtype_dict = {'std_msgs/Int32': std_msgs.msg.Int32,
-                    'std_msgs/Float64': std_msgs.msg.Float64}
+                    'std_msgs/Float64': std_msgs.msg.Float64,
+                    'std_msgs/String': std_msgs.msg.String}
     rospy.spin()
