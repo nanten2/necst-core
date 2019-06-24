@@ -23,13 +23,13 @@ def compare_topic_list():
     global topic_li
     while not rospy.is_shutdown():
         new_topic_li = make_topic_list()
-        if topic_li == new_topic_li:
+        if list(set(new_topic)-set(topic_li)) == []:
             pass
 
-        elif topic_li != new_topic_li:
-            topic_li = new_topic_li
-            make_Subscriber(topic_li)
-
+        elif list(set(new_topic)-set(topic_li)) != []:
+            a = list(set(new_topic)-set(topic_li))
+            make_Subscriber(a)
+            topic_li.append(a)
         """
         elif topic_li < new_topic_li:
             topic_li = new_topic_li
