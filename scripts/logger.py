@@ -29,7 +29,7 @@ def compare_topic_list():
         elif list(set(new_topic_li)-set(topic_li)) != []:
             a = list(set(new_topic_li)-set(topic_li))
             make_Subscriber(a)
-            topic_li.append(a)
+            topic_li + a
     return
     """
     elif topic_li < new_topic_li:
