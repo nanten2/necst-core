@@ -15,7 +15,7 @@ def make_topic_list():
     for i in range(len(_topic_li)):
         if _topic_li[i][0] == '/rosout': pass
         elif _topic_li[i][0] == '/rosout_agg': pass
-        else: topic_li.append(_topic_li[i])
+        else: topic_li.append(tuple(_topic_li[i]))
     return topic_li
 
 
@@ -26,7 +26,6 @@ def compare_topic_list():
         print(new_topic_li)
         if list(set(new_topic_li)-set(topic_li)) == []:
             pass
-#taplenisuru
         elif list(set(new_topic_li)-set(topic_li)) != []:
             a = list(set(new_topic_li)-set(topic_li))
             make_Subscriber(a)
