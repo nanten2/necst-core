@@ -3,60 +3,62 @@
 name = 'logger'
 
 import time
-import threading
 import funclist
 
 import rospy
 import std_msgs.msg
 
-def make_topic_list():
-    topic_li = []
-    _topic_li = rospy.get_published_topics()
-    for i in range(len(_topic_li)):
-        if _topic_li[i][0] == '/rosout': pass
-        elif _topic_li[i][0] == '/rosout_agg': pass
-        else: topic_li.append(_topic_li[i])
-    return topic_li
+ignores = [
+    '/rosout',
+    '/rosout_agg',
+]
 
-def compare_topic_list():
-    global topic_list
-    while not rospy.is_shutdown():
-        new_topic_list = make_topic_list()
-        for i in new_topic_list:
-            if i in topic_list:
-               pass
-            else:
-               make_Subscriber(i)
-               topic_list.append(i)
-    return
+def get_current_topic_list():
+    topic_list = rospy.get_published_topics()
+    for topic in topic_list[:]:
+        if topic[0] in ignores:
+            topic_list.remove(topic)
+            pass
+        continue
+    return topic_list
 
-def make_Subscriber(topic):
-        rospy.Subscriber(
-            name = topic[0],
-            data_class = msgtype_dict[topic[1]],
-            callback = callback,
-            callback_args = topic[0],
-            queue_size = 1)
+def make_subscriber(topic):
+    topic_name = topic[0]
+    topic_type = eval(topic[1].replace('/', '.msg.'))
+    rospy.Subscriber(
+        name = topic_name,
+        data_class = topic_type,
+        callback = callback,
+        callback_args = topic_name,
+        queue_size = 1
+    )
 
 def callback(req, arg):
-    data = {'topic': arg,'time': time.time(), 'msgs': {'data': req.data}}
-    #'msgs': {'data': req.data,'time': req.timestamp}
+    keys = [attr for attr in req.__dir__() 
+            if not attr.startswith('_') 
+            and not attr in ['serialize', 'deserialize',
+                             'serialize_numpy', 'deserialize_numpy']]
+    msg_dict = {key: req.__getattribute__(key) for key in keys}
+    
+    data = {'topic': arg,'time': time.time(), 'msgs': msg_dict}
+    
     flist = funclist.func_li()
     for f in flist:
         f(data)
     return
 
-def start_thread():
-    th = threading.Thread(target = compare_topic_list)
-    th.setDaemon(True)
-    th.start()
 
 if __name__ == '__main__':
     rospy.init_node(name)
-    topic_list = []
-    start_thread()
-
-    msgtype_dict = {'std_msgs/Int32': std_msgs.msg.Int32,
-                    'std_msgs/Float64': std_msgs.msg.Float64,
-                    'std_msgs/String': std_msgs.msg.String}
-    rospy.spin()
+    
+    subscribing_topic_list = []
+    while not rospy.is_shutdown():
+        current_topic_list = get_current_topic_list()
+        for topic in current_topic_list:
+            if topic not in subscribing_topic_list:
+                make_subscriber(topic)
+                subscribing_topic_list.append(topic)
+                pass
+            continue
+        time.sleep(1)
+        continue
