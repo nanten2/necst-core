@@ -7,24 +7,8 @@ import topic_monitor
 db_logger_operation = db_logger_operation.db_logger_operation()
 topic_monitor = topic_monitor.topic_monitor()
 #web_monitor = web_monitor.web_monitor()
-"""
-def func_li(data):
-    func_li = [db_logger_operation.regist(data),
-               topic_monitor.regist(data)]
-               #web_monitor.web_monitor.regist()]
-    return func_li
-"""
 
 def func_li():
     func_li = [db_logger_operation.regist,
                topic_monitor.regist]
                #web_monitor.web_monitor.regist()]
-    return func_li
-
-"""
-def func_li2():
-    func_li2 = [#db_logger_operation.remove,
-               topic_monitor.remove]
-               #web_monitor.web_monitor.regist()]
-    return func_li2
-"""
