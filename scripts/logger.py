@@ -31,11 +31,11 @@ def compare_topic_list():
             make_Subscriber(a)
             topic_li.append(a)
     return
-        """
-        elif topic_li < new_topic_li:
-            topic_li = new_topic_li
-            dec_Subscriber()
-        """
+    """
+    elif topic_li < new_topic_li:
+        topic_li = new_topic_li
+        dec_Subscriber()
+    """
 
 def make_Subscriber(topic_li):
     for i in range(len(topic_li)):
