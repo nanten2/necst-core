@@ -52,6 +52,8 @@ class db_logger_always_vol2(object):
                     else:
                         index = list_topic.index(topic)
                         self.temp_data_list[index]["data"][topic] = d[topic]
+                continue
+            continue
 
     def loop(self):
 
