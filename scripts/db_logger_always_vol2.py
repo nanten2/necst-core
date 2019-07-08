@@ -35,7 +35,7 @@ class db_logger_operation(object):
         return
 
     def make_temp_data(self,t=10):
-        while True
+        while True:
             self.temp_data_list = []
             st = time.time()
             while time.time()-st < t:
