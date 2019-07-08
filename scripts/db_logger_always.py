@@ -19,7 +19,6 @@ class db_logger_always(object):
 
         self.th = threading.Thread(target= self.loop)
         self.th.start()
-
         pass
 
     def regist(self, data):
@@ -29,7 +28,6 @@ class db_logger_always(object):
         return
 
     def loop(self):
-       
         while True:    
             if len(self.data_list) == 0:
                 self.db.finalize()
@@ -40,14 +38,14 @@ class db_logger_always(object):
                 time.sleep(0.01)
                 continue
             
-                d = self.data_list.pop(0)
+            d = self.data_list.pop(0)
                
-               if d['data']['topic'] not in self.current_topic_list:
-                   self.db.insert(d)
-                   self.curret_topic_list.append(d['data']['topic'])
-               else:
-                   self.last_append_time = d['data']['time']
-                   self.current_topic_list =[]
-                   self.data_list =[]
+            if d['data']['topic'] not in self.current_topic_list:
+                self.db.insert(d)
+                self.curret_topic_list.append(d['data']['topic'])
+            else:
+                self.last_append_time = d['data']['time']
+                self.current_topic_list =[]
+                self.data_list =[]
             continue 
         return   
