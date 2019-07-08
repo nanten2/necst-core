@@ -28,10 +28,7 @@ class db_logger_always_vol2(object):
         return
 
     def regist(self, data):
-        if self.db_path != '':
-            self.data_list.append({'path': self.db_path, 'data': data})
-        else: pass
-
+        self.data_list.append({'path': self.db_path, 'data': data})
         return
 
     def make_temp_data(self,t=10):
