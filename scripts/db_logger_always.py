@@ -23,7 +23,7 @@ class db_logger_always(object):
         pass
 
     def regist(self, data):
-        if data["time"] -  self.last_append_time >= 10:
+        if data['time'] -  self.last_append_time >= 10:
             self.data_list.append({'path': self.db_path, 'data': data})
             pass
         return
@@ -40,14 +40,14 @@ class db_logger_always(object):
                 time.sleep(0.01)
                 continue
             
-            d = self.data_list.pop(0)
-            
-            if d["topic"] not in self.current_topic_list:
-                self.db.insert(d)
-                self.curret_topic_list.append(d["topic"])
-            else:
-                self.last_append_time = d["time"]
-                self.current_topic_list =[]
-                self.data_list =[]
+                d = self.data_list.pop(0)
+               
+               if d['data']['topic'] not in self.current_topic_list:
+                    self.db.insert(d)
+                    self.curret_topic_list.append(d['data']['topic'])
+                else:
+                    self.last_append_time = d['data']['time']
+                    self.current_topic_list =[]
+                    self.data_list =[]
             continue 
         return   
