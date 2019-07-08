@@ -50,7 +50,7 @@ class db_logger_operation(object):
                     list_topic.append(s[0])
 
                 for i in range(len(list_topic)):
-                    if topic is not in list_topic:
+                    if topic not in list_topic:
                         self.temp_data_list.append(d)
                     else:
                         index = list_topic.index(topic)
