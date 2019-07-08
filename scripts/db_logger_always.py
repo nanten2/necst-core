@@ -12,7 +12,7 @@ import std_msgs.msg
 class db_logger_always(object):
 
     def __init__(self):
-        self.db_path = '/home/exito/data/logger/test/20190708/1500-always.db'
+        self.db_path = '/home/exito/data/logger/test/20190708/2130-always.db'
         self.last_append_time = 0
         self.current_topic_list = []
         self.data_list = []
