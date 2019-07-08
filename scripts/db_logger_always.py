@@ -13,15 +13,17 @@ class db_logger_always(object):
 
         self.db_path = ''
         self.last_append_time = 0
+        self.current_topic_list =[]
+        self.data_list =[]
 
         self.th = threading.Thread(target= self.loop)
         self.th.start()
+
         pass
 
     def regist(self, data):
-        if time.time() -  self.last_append_time >= 10:
+        if data["time"] -  self.last_append_time >= 10:
             self.data_list.append({'path': self.db_path, 'data': data})
-            self.last_append_time = time.time()
             pass
         return
 
@@ -36,11 +38,15 @@ class db_logger_always(object):
                     break
                 time.sleep(0.01)
                 continue
-
+            
             d = self.data_list.pop(0)
-            # if os.path.exits(self.dbpath[:self.dbpath.rfind('/')]):pass
-            # else: os.makedirs(self.dbpath[:self.dbpath.rfind('/')]) 
-            # self.db =necstdb.necstdb(self.dbpath,len(data))
-            self.db.insert(d)
+            
+            if d["topic"] not in self.current_topic_list:
+                self.db.insert(d)
+                self.curret_topic_list.append(d["topic"])
+            else:
+                self.last_append_time = d["time"]
+                self.current_topic_list =[]
+                self.data_list =[]
             continue 
         return   
