@@ -14,9 +14,10 @@ class db_logger_always(object):
     def __init__(self):
         self.db_path = '/home/exito/data/logger/test/20190708/1500-always.db'
         self.last_append_time = 0
-        self.current_topic_list =[]
-        self.data_list =[]
-
+        self.current_topic_list = []
+        self.data_list = []
+        
+        self.db = necstdb.necstdb()
         self.th = threading.Thread(target= self.loop)
         self.th.start()
         pass
@@ -45,7 +46,7 @@ class db_logger_always(object):
                 self.curret_topic_list.append(d['data']['topic'])
             else:
                 self.last_append_time = d['data']['time']
-                self.current_topic_list =[]
-                self.data_list =[]
+                self.current_topic_list = []
+                self.data_list = []
             continue 
         return   
