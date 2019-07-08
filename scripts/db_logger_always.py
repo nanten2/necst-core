@@ -43,7 +43,7 @@ class db_logger_always(object):
                
             if d['data']['topic'] not in self.current_topic_list:
                 self.db.insert(d)
-                self.curret_topic_list.append(d['data']['topic'])
+                self.current_topic_list.append(d['data']['topic'])
             else:
                 self.last_append_time = d['data']['time']
                 self.current_topic_list = []
