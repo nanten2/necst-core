@@ -9,7 +9,7 @@ import necstdb
 import rospy
 import std_msgs.msg
 
-class db_logger_operation(object):
+class db_logger_always_vol2(object):
 
     def __init__(self):
         self.temp_data_list = []
@@ -29,7 +29,7 @@ class db_logger_operation(object):
 
     def regist(self, data):
         if self.db_path != '':
-            self.temp_data_list.append({'path': self.db_path, 'data': data})
+            self.data_list.append({'path': self.db_path, 'data': data})
         else: pass
 
         return
@@ -40,13 +40,13 @@ class db_logger_operation(object):
             st = time.time()
             while time.time()-st < t:
                 d = self.data_list.pop(0)
-                topic = list(d.keys())
-                data = d[str(topic)]
+                topic = list(d["data"].keys())
+                data = d["data"][str(topic)]
 
                 list_num = len(temp_data_list)
                 list_topic = []
                 for i in range(list_num):
-                    s = list(a[i].keys())
+                    s = list(temp_data_list[i].keys())
                     list_topic.append(s[0])
 
                 for i in range(len(list_topic)):
@@ -54,7 +54,7 @@ class db_logger_operation(object):
                         self.temp_data_list.append(d)
                     else:
                         index = list_topic.index(topic)
-                        self.temp_data_list[index][topic] = d[topic]
+                        self.temp_data_list[index]["data"][topic] = d[topic]
 
     def loop(self):
 
