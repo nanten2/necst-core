@@ -31,36 +31,11 @@ class db_logger_always_vol2(object):
         self.data_list.append({'path': self.db_path, 'data': data})
         return
 
-    def make_temp_data(self,t=10):
-        while True:
-            self.temp_data_list = []
-            st = time.time()
-            while time.time()-st < t:
-                d = self.data_list.pop(0)
-                topic = list(d["data"].keys())
-                data = d["data"][str(topic)]
-
-                list_num = len(temp_data_list)
-                list_topic = []
-                for i in range(list_num):
-                    s = list(temp_data_list[i].keys())
-                    list_topic.append(s[0])
-
-                for i in range(len(list_topic)):
-                    if topic not in list_topic:
-                        self.temp_data_list.append(d)
-                    else:
-                        index = list_topic.index(topic)
-                        self.temp_data_list[index]["data"][topic] = d[topic]
-                continue
-            continue
-
     def loop(self):
-
         while True:
             self.temp_data_list = []
             st = time.time()
-            while time.time()-st < t:
+            while time.time()-st < 10:
                 d = self.data_list.pop(0)
                 topic = list(d["data"].keys())
                 data = d["data"][str(topic)]
