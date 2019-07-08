@@ -28,7 +28,7 @@ class make_pub(object):
         self.pub[topic_name].publish(msg)
         return
 
-    def set_publish(self, topic_name, data_class):
+    def set_publisher(self, topic_name, data_class):
         if topic_name not in self.pub:
             self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = 1, latch = False)
             time.sleep(0.01)
