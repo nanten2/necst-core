@@ -12,7 +12,7 @@ import std_msgs.msg
 class db_logger_always_vol2(object):
 
     def __init__(self):
-        self.temp_data_list = []
+        self.data_list = []
         self.db_path = '/home/exito/data/logger/test/20190708/kondo-always.db'
         self.db = necstdb.necstdb()
         self.th = threading.Thread(target= self.loop)
