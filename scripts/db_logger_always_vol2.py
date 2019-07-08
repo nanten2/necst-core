@@ -17,7 +17,7 @@ class db_logger_always_vol2(object):
         self.db = necstdb.necstdb()
         self.th = threading.Thread(target= self.loop)
         #self.th1 = threading.Thread(target= self.make_temp_data)
-
+        print("start always logger")
         self.th.start()
         #self.th1.start()
         pass
