@@ -45,12 +45,12 @@ class logger(object):
         topic_name = '/logger_path'
         data_class = std_msgs.msg.String
 
-        self.make_pub.publish(topic_name = topic_name, data_class = data_class, msg = db_path)
+        self.make_pub.publish(topic_name, data_class, msg = db_path)
         return
 
     def stop(self):
         topic_name = '/logger_path'
         data_class = std_msgs.msg.String
 
-        self.make_pub.publish(topic_name = topic_name, data_class = data_class, msg = '')
+        self.make_pub.publish(topic_name, data_class, msg = '')
         return
