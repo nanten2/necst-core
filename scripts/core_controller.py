@@ -63,7 +63,7 @@ class test(object):
 
     def msg_test(self, db_path):
         topic_name = '/test_topic'
-        data_class = std_msgs.msg.String
+        data_class = std_msgs.msg.Float64
 
         self.make_pub.publish(topic_name, data_class, msg = db_path)
         return
