@@ -54,3 +54,16 @@ class logger(object):
 
         self.make_pub.publish(topic_name, data_class, msg = '')
         return
+
+
+class test(object):
+
+    def __init__(self):
+        self.make_pub = make_pub()
+
+    def msg_test(self, db_path):
+        topic_name = '/test_topic'
+        data_class = std_msgs.msg.String
+
+        self.make_pub.publish(topic_name, data_class, msg = db_path)
+        return
