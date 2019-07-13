@@ -20,10 +20,12 @@ class make_pub(object):
         self.pub = {}
         pass
 
-    def publish(self, topic_name, data_class, msg):
+    def publish(self, topic_name, msg):#data_class,
+        '''
         if topic_name not in self.pub:
             self.set_publisher(topic_name = topic_name, data_class = data_class)
             pass
+        '''
 
         self.pub[topic_name].publish(msg)
         return
@@ -45,12 +47,16 @@ class logger(object):
         topic_name = '/logger_path'
         data_class = std_msgs.msg.String
 
-        self.make_pub.publish(topic_name, data_class, msg = db_path)
+        self.make_pub.set_publisher(topic_name, data_class)
+
+        self.make_pub.publish(topic_name, msg = db_path)#data_class,
         return
 
     def stop(self):
         topic_name = '/logger_path'
         data_class = std_msgs.msg.String
 
-        self.make_pub.publish(topic_name, data_class, msg = '')
+        self.make_pub.set_publisher(topic_name, data_class)
+
+        self.make_pub.publish(topic_name, msg = '')#data_class,
         return
