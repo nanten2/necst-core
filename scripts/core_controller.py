@@ -29,8 +29,11 @@ class make_pub(object):
         return
 
     def set_publisher(self, topic_name, data_class):
+        t1 = time.time()
         self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = 1, latch = False)
+        t2 = time.time()
         time.sleep(0.1)
+        print(t2-t1)
         return
 
 
