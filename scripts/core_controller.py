@@ -33,7 +33,7 @@ class make_pub(object):
         self.pub[topic_name] = rospy.Publisher(name = topic_name, data_class = data_class, queue_size = 1, latch = False)
         t2 = time.time()
         time.sleep(0.1)
-        print(t2-t1)
+        print("set "+str(t2-t1))
         return
 
 
@@ -45,8 +45,10 @@ class logger(object):
     def start(self, db_path):
         topic_name = '/logger_path'
         data_class = std_msgs.msg.String
-
+        t1 = time.time()
         self.make_pub.publish(topic_name, data_class, msg = db_path)
+        t2 = time.time()
+        print("make pub "+str(t2-t1))
         return
 
     def stop(self):
