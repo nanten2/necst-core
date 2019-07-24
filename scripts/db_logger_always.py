@@ -25,7 +25,7 @@ class db_logger_always(object):
         pass
 
     def regist(self, data):
-            self.data_list.append({'path': , 'data': data})
+        self.data_list.append({'path': "", 'data': data})
         return
 
     def loop(self):
