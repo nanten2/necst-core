@@ -1,0 +1,269 @@
+html*{
+    box-sizing:border-box;
+}
+
+table {
+    background-color: #cdefff;  /* 背景色指定 */
+}
+ 
+th {
+    background-color: #00e2cf;  /* 背景色指定 */
+}
+
+td{
+    border:1px solid #c0c0c0;
+}
+
+button{
+    text-align:center;
+    padding:5px 15px 5px 15px;
+    border-radius:5px;
+}
+
+.btn{
+    background:#fffff0;
+    border: solid 1px #a0a0a0;
+}
+
+.btn-default{
+    background:#fffff0;
+}
+
+
+.btn-danger{
+    background:#fa8072;
+}
+h1 {
+    position: relative;
+    color: #158b2b;
+    font-size: 20px;
+    padding: 10px 0;
+    text-align: center;
+    margin: 1.5em 0;
+}
+h1:before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 150px;
+    height: 58px;
+    border-radius: 50%;
+    border: 5px solid #a6ddb0;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+/* header */
+header{
+    margin:0 auto;
+    background:#f0fff0;
+    width:1000px
+}
+
+.header-container{
+    padding:30px 20px 10px 20px;
+}
+
+.header-logo{
+    color:#000000;
+}
+
+/* footer */
+footer{}
+.footer-container{
+    margin:0 auto;
+    padding:60px;
+    border-radius:0 0 10px 10px;
+    background:#ffdab9;
+    width:900px;
+}
+
+
+/* main */
+main{}
+.main-container{
+    /*display:flex;*/
+    padding: 10px 0 10px 0;
+    background:#ffffff;
+}
+
+.wrapper1{
+    order:1;
+    /*width: 1000px;*/
+    width:100%
+    margin:0 5px 0 20px;
+    padding:0px 0 10px 0;
+
+
+}
+
+/*title*/
+.column11-main{
+    text-align:center;
+    margin:0px 5px 5px 5px;
+    /*border:5px solid #061256;*/
+    padding:0px 10px 0px 10px;
+    /*height:px;*/
+    background:#ffffff;
+}
+
+.column11-sub1{
+    text-align:center;
+    margin:5px 5px 0px 5px;
+    border:2px solid #061256;
+}
+
+.column11-sub2{
+    text-align:center;
+    margin:5px 0 0 0;
+    /*border:1px solid #dddddd;*/
+    /*background:#faeeee;*/
+}
+
+/*weather*/
+.column12{
+    text-align:center;
+    border:5px solid #061256;
+}
+
+.column12-title{
+    text-align:center;
+    background:#b3e0ba;
+    margin:5px 2px 0px 2px;
+    border:2px solid #6eaf73;
+}
+
+.column12-main{
+    text-align:center;
+    margin:5px 2px 5px 2px;
+    background:#ffffff;
+    border:2px solid #6eaf73;
+    overflow:hidden;
+    list-style:none;
+}
+
+.column12-main li{
+    float:left;
+    margin:5px 0px 0px 5px;
+    width:120px;
+    border:1px solid #b3e0ba;
+}
+.column12-main table{
+    float:left;
+    margin:5px 5px 5px 5px;
+    /*width:980px;*/
+    width:100%;
+    /*height:100px;*/
+    border:1px solid #000000;
+    background:#e0ffff;
+    /*text-align : left;    */
+}
+
+.data_table{
+    float:left;
+    margin:5px 0px 0px 5px;
+    /*width:900px;*/
+    /*height:100px;*/
+    border:1px solid #b3e0ba;
+    background:#98fb98;
+    
+}
+
+.test{
+    text-align:left;
+}
+
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  width: 490px;
+}
+
+table tr:last-child{
+  border-bottom:solid 1px #ddd;
+}
+
+table th{
+  text-align: center;
+  padding: 7px 0;
+  border-right:solid 1px #ddd;
+  border-left:solid 1px #ddd;
+  width: 155px;
+}
+
+table th:nth-child(1){
+  background-color:#dddddd;
+}
+
+table th:nth-child(3){
+  background-color:#f5b932;
+  color: white;
+}
+
+table tr:nth-child(2) td{
+  font-size: 16px;
+}
+
+table td{
+  text-align: center;
+  padding: 7px 0;
+  border-right:solid 1px #ddd;
+  border-left:solid 1px #ddd;
+  width: 155px;
+}
+
+table td a{
+  background-color: #25b327;
+  color: white;
+  padding:5px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+}
+
+table .popular{
+  width: 180px;
+}
+
+table th.popular{
+  position: relative;
+}
+
+table th.popular span.no1{
+  position: absolute;
+  top: -10px;
+  left:calc(50% - 30px);
+  background: #bdcc28;
+  width: 60px;
+  font-size: 10px;
+  border-radius: 15px;
+  line-height: 1;
+  padding: 5px;
+}
+
+table th.popular span.inner{
+  position: absolute;
+  color:white;
+  background-color: #f34955;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 180px;
+  padding: 10px 0;
+}
+
+.box7{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #474747;
+    background: whitesmoke;/*背景色*/
+    border-left: double 7px #4ec4d3;/*左線*/
+    border-right: double 7px #4ec4d3;/*右線*/
+}
+.box7 p {
+    margin: 0; 
+    padding: 0;
+}
