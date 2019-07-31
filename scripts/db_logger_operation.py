@@ -22,16 +22,16 @@ class db_logger_operation(object):
             queue_size = 1,
         )
         
-        self.db = necstdb.opendb('/home/exito/data/logger/')
         self.th = threading.Thread(target= self.loop)
 
         self.th.start()
         pass
-
-
+    
+    def callback_path(self, req):
+        self.db_path = req.data
 
     def regist(self, data):
-        if 
+        if  self.db_path != '':
             self.data_list.append('data': data)
         else: pass
       
@@ -53,13 +53,13 @@ class db_logger_operation(object):
             table_name = d['topic'].replace('/','-')
             
             if type(d['msg']['data']) is list:
-                table_data = [d['time'],*d['msg']['data']]
+                table_data = [d['time'],*d['msgs']['data']]
 
             elif type(d['msg']['data']) is tuple:
-                table_data = [d['time'],*d['msg']['data']]
+                table_data = [d['time'],*d['msgs']['data']]
             
             else: 
-                table_data = [d['time'],*d['msg']['data']]
+                table_data = [d['time'],d['msgs']['data']]
             
             db.create_table(table_name,
                             {'data':[
