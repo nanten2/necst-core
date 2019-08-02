@@ -47,6 +47,7 @@ class db_logger_operation(object):
                     for open_table in self.open_table_dict.values():
                         open_table.close()
                     self.open_table_dict = {}
+                    self.commiting_db = ''
                         pass
                 pass
                     
@@ -89,7 +90,7 @@ class db_logger_operation(object):
                                    'size': 8,
                                 },
                                 {
-                                    'key': 'data',
+                                    'key': d['data']['msgs'].keys(),
                                     'format': '{}f'.format(len(table_data)-1),
                                     'size': 131072,
                                 },],
