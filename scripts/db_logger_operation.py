@@ -13,7 +13,7 @@ class db_logger_operation(object):
 
     def __init__(self):
         self.data_list = []
-        self.table_dict = {}
+        self.open_table_dict = {}
         self.db_path = ''
         self.commiting_db = ''
 
@@ -43,7 +43,11 @@ class db_logger_operation(object):
        
         while True:    
             if len(self.data_list) == 0:
-                
+                if len(self.open_table_dict) != 0:
+                    for open_table in self.open_table_dict.values():
+                        open_table.close()
+                    self.open_table_dict = {}
+                        pass
                 pass
                     
                 if rospy.is_shutdown():
@@ -54,6 +58,13 @@ class db_logger_operation(object):
             d = self.data_list.pop(0)
             
             if d['path'] != self.commiting_db:
+                
+                if len(self.open_table_dict) != 0:
+                    for open_table in self.open_table_dict.values():
+                        open_table.close()
+                    self.open_table_dict = {}
+                        pass
+
                 db = necstdb.opendb(d['path'])           
                 self.commiting_db = d['path']
                 pass
@@ -86,10 +97,10 @@ class db_logger_operation(object):
                             'version': '0.2.0',})
             
             if table_name not in self.table_dict:
-                self.table_dict[table_name] = db.open_table(table.name, mode = 'ab')
+                self.open_table_dict[table_name] = db.open_table(table.name, mode = 'ab')
                 pass
             
-            self.table_dict[table_name].append(*table_data)
+            self.open_table_dict[table_name].append(*table_data)
             
             continue 
         return            
