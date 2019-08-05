@@ -29,6 +29,7 @@ class db_logger_operation(object):
 
     def callback_path(self, req):
         self.db_path = req.data
+        print(req.data)
         if self.db_path != '':
             self.db = necstdb.opendb(self.db_path)
             self.close_tables()
@@ -64,7 +65,7 @@ class db_logger_operation(object):
             d = self.data_list.pop(0)
 
             table_name = d['topic'].replace('/', '-')
-            table_data = [d['time']]
+            table_data = [d['received_time']]
             table_info = [{'key': 'timestamp',
                            'format': 'd',
                            'size': 8}]
@@ -99,6 +100,7 @@ class db_logger_operation(object):
 
                 elif slot['type'].startswith('string'):
                     info = {'format': 's', 'size': len(slot['value'])}
+                    slot['value'] = slot['value'].encode()
 
                 elif slot['type'].startswith('uint8'):
                     info = {'format': 'B', 'size': 1}
