@@ -59,11 +59,10 @@ class db_logger_operation(object):
             
             table_name = d['topic'].replace('/','-')
             
-            #if type(d['msgs']['data']) is std.msgs.msg.Float32MultiArray:
-            #    table_data = [d['time'],*d['msgs']['data']]
-
-            #else: 
-            #   table_data = [d['time'],d['msgs']['data']]
+            if type(d['msgs']['data']) is tuple:
+                table_data = [d['time'],*d['msgs']['data']]
+            else: 
+                table_data = [d['time'],d['msgs']['data']]
             
             db.create_table(table_name,
                             {'data':[
@@ -73,7 +72,7 @@ class db_logger_operation(object):
                                    'size': 8,
                                 },
                                 {
-                                    'key': d['data']['msgs'].keys(),
+                                    'key': d['msgs'].keys(),
                                     'format': '{}f'.format(len(table_data)-1),
                                     'size': 131072,
                                 },],
