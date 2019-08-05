@@ -36,11 +36,11 @@ def make_subscriber(topic):
 def callback(req, arg):
     keys = [attr for attr in req.__dir__() 
             if not attr.startswith('_') 
-            and not attr in ['serialize', 'deserialize',
+            and not attr in ['serialize', 'deserialize
                              'serialize_numpy', 'deserialize_numpy']]
     msg_dict = {key: req.__getattribute__(key) for key in keys}
     
-    data = {'topic': arg,'time': time.time(), 'msgs': msg_dict}
+    data = {'topic': arg,'time': time.time(), 'msgs': msg_dict, 'req': req}
     
     flist = funclist.func_li()
     for f in flist:
