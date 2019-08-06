@@ -21,8 +21,8 @@ class topic_monitor(object):
 
     def regist(self, data):
         #data = {'topic': arg,'received_time': time.time(), 'slots': [{'key': key,'type', type,'values': req.data}]}
-        if len(data[slots]) == 1:
-            self.topic_dic[data["topic"]] = data["slots"]["values"]
+        if len(data['slots']) == 1:
+            self.topic_dic[data['topic']] = data['slots']['values']
             pass
         return
 
