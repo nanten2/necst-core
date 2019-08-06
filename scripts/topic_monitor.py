@@ -31,7 +31,7 @@ class topic_monitor(object):
             print("------------------")
 
             for topic, data in sorted(self.topic_dic.items()):
-                print(topic+" : %s"%(data]))
+                print(topic+" : %s"%(data))
                 time.sleep(0.1)
 
             continue
