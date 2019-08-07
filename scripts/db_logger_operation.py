@@ -29,7 +29,6 @@ class db_logger_operation(object):
 
     def callback_path(self, req):
         self.db_path = req.data
-        print(req.data)
         if self.db_path != '':
             self.db = necstdb.opendb(self.db_path)
             self.close_tables()
