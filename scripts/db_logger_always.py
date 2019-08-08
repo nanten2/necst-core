@@ -36,7 +36,7 @@ class db_logger_always(object):
     def db_date(self):
         if self.db_path_data != "{0:%Y%m%d}".format(datetime.datetime.now()):
             self.db_path_data = "{0:%Y%m%d}".format(datetime.datetime.now())
-            slef.db = necstdb.opendb(self.db_path + self.db_path_data)
+            self.db = necstdb.opendb(self.db_path + self.db_path_data)
             self.close_tables()
             pass
         return
