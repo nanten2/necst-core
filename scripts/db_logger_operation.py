@@ -15,7 +15,7 @@ class db_logger_operation(object):
         self.data_list = []
         self.table_dict = {}
         self.db_path = ''
-
+        t1 = time.time()
         self.sub_path = rospy.Subscriber(
             name = '/logger_path',
             data_class = std_msgs.msg.String,
@@ -30,14 +30,17 @@ class db_logger_operation(object):
     def callback_path(self, req):
         self.db_path = req.data
         if self.db_path != '':
+            t1 = time.time()
             self.db = necstdb.opendb(self.db_path)
             self.close_tables()
         else:
             while len(self.data_list)!=0:
                 time.sleep(0.1)
                 continue
+            t2 = time.time()
             self.close_tables()
             pass
+        print(t2-t1)
         return
 
     def close_tables(self):
