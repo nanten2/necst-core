@@ -28,19 +28,15 @@ class db_logger_operation(object):
         pass
 
     def callback_path(self, req):
-        self.db_path = req.data
-        if self.db_path != '':
-            t1 = time.time()
+        if req.data != '':
+            self.db_path = ''
+            self.data_list = []
+            self.close_tables()
             self.db = necstdb.opendb(self.db_path)
-            self.close_tables()
+            self.db_path = req.data
         else:
-            while len(self.data_list)!=0:
-                time.sleep(0.1)
-                continue
-            t2 = time.time()
-            self.close_tables()
+            self.db_path = req.data
             pass
-        print(t2-t1)
         return
 
     def close_tables(self):
@@ -58,8 +54,8 @@ class db_logger_operation(object):
     def loop(self):
 
         while True:
-            time.sleep(0.01)
             if len(self.data_list) ==0:
+                time.sleep(0.01)
                 if rospy.is_shutdown():
                     break
                 continue
