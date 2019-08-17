@@ -34,6 +34,7 @@ class db_logger_operation(object):
             self.close_tables()
             self.db_path = req.data
             self.db = necstdb.opendb(self.db_path)
+            time.sleep(0.1)
 
         else:
             self.db_path = req.data
