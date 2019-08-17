@@ -32,8 +32,9 @@ class db_logger_operation(object):
             self.db_path = ''
             self.data_list = []
             self.close_tables()
-            self.db = necstdb.opendb(self.db_path)
             self.db_path = req.data
+            self.db = necstdb.opendb(self.db_path)
+
         else:
             self.db_path = req.data
             pass
