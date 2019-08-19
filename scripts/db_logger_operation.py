@@ -128,7 +128,6 @@ class db_logger_operation(object):
 
                 info['key'] = slot['key']
                 table_info.append(info)
-                continue
 
             self.db.create_table(table_name,
                             {'data': table_info,
