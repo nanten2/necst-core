@@ -75,7 +75,7 @@ class db_logger_operation(object):
                     info = {'format': 'c', 'size': 1}
 
                 elif slot['type'].startswith('byte'):
-                    info = {'format': 's', 'size': len(slot['value'])}
+                    info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
 
                 elif slot['type'].startswith('char'):
                     info = {'format': 'c', 'size': 1}
