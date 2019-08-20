@@ -12,27 +12,35 @@ import std_msgs.msg
 class topic_monitor(object):
 
     def __init__(self):
-        self.topic_dic = {} #{'topic1':data1,'topic2':data2, ...}
+        self.topic_dict = {} #{'topic1':data1,'topic2':data2, ...}
         self.th = threading.Thread(target= self.loop)
         self.th.start()
         pass
 
 
     def regist(self, data):
-        #data = {'topic': arg,'received_time': time.time(), 'slots': [{'key': key,'type', type,'values': req.data}]}
-        if len(data['slots']) == 1:
-            self.topic_dic[data['topic']] = data['slots']['values']
-            pass
+        #data = {'topic': arg,'received_time': time.time(), 'slots': [{'key': key,'type', type,'value': req.data}]}
+        self.topic_dict[data['topic']] = data
         return
 
     def loop(self):
         while not rospy.is_shutdown():
             print("------------------")
 
-            for topic, data in sorted(self.topic_dic.items()):
-                print(topic+" : %s"%(data))
-                time.sleep(0.1)
-
+            for topic, data in sorted(self.topic_dict.items()):
+                for slot in data['slots']:
+                    if isinstance(slot['value'], tuple):
+                        continue
+                    if slot['key'] == 'layout':
+                        continue
+                    if time.time()-data['received_time'] > 10:
+                        continue
+                    if slot['key'] == 'data':
+                        print(topic+" : %s"%(slot['value']))
+                    else:
+                        print(topic+'.'+slot['key']+" : %s"%(slot['value']))
+                    continue
+            time.sleep(0.1)
             continue
         return
 
