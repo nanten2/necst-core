@@ -13,7 +13,7 @@ import std_msgs.msg
 class db_logger_always(object):
 
     def __init__(self):
-        self.db_dir = '/home/exito/data/evaluation/always/'
+        self.db_dir = '/home/hinotoritz/data/evaluation/always/'
         self.db_path_date = ''
         self.data_list = []
         self.receive_time_dict ={}
