@@ -66,7 +66,7 @@ class db_logger_always(object):
                  self.receive_time_dict[d['topic']] = d['received_time'] 
                  pass
 
-            table_name = d['topic'].replace('/', '-')
+            table_name = d['topic'].replace('/', '-').strip('-')
             table_data = [d['received_time']]
             table_info = [{'key': 'timestamp',
                            'format': 'd',
