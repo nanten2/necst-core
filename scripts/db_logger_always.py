@@ -13,7 +13,7 @@ import std_msgs.msg
 class db_logger_always(object):
 
     def __init__(self):
-        self.db_path = '/home/exito/data/logger/always/'
+        self.db_path = '/home/exito/data/evaluation/always/'
         self.db_path_date = ''
         self.data_list = []
         self.receive_time_dict ={}
@@ -37,7 +37,8 @@ class db_logger_always(object):
         if self.db_path_date != "{0:%Y%m%d}".format(datetime.datetime.now()):
             self.db_path_date = "{0:%Y%m%d}".format(datetime.datetime.now())
             self.data_list = []
-            self..close_table()
+            self.receive_timme_dict = {}
+            self.close_table()
             self.db = necstdb.opendb(self.db_path + self.db_path_date)
             pass
         return
@@ -49,8 +50,10 @@ class db_logger_always(object):
                     break
                 time.sleep(0.01)
                 continue
-            
+
             d = self.data_list.pop(0)
+
+            self.db_date()
 
             if d['topic'] not in self.receive_time_dic:
                 self.receive_time_dict[d['topic']] = d['received_time']
@@ -62,8 +65,6 @@ class db_logger_always(object):
             else:
                  self.receive_time_dict[d['topic']] = d['received_time'] 
                  pass
-
-            self.db_data()
 
             table_name = d['topic'].replace('/', '-')
             table_data = [d['received_time']]
