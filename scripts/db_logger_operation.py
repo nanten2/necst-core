@@ -99,7 +99,7 @@ class db_logger_operation(object):
                     info = {'format': 'q', 'size': 8}
 
                 elif slot['type'].startswith('string'):
-                    info = {'format': 's', 'size': len(slot['value'])}
+                    info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
                     slot['value'] = slot['value'].encode()
 
                 elif slot['type'].startswith('uint8'):
