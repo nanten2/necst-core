@@ -15,7 +15,6 @@ class topic_monitor(object):
         self.topic_dic = {} #{'topic1':data1,'topic2':data2, ...}
         self.th = threading.Thread(target= self.loop)
         self.th.start()
-        print("tmmonitor")
         pass
 
 
