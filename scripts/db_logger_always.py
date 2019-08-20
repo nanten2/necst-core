@@ -13,7 +13,7 @@ import std_msgs.msg
 class db_logger_always(object):
 
     def __init__(self):
-        self.db_path = '/home/exito/data/evaluation/always/'
+        self.db_dir = '/home/exito/data/evaluation/always/'
         self.db_path_date = ''
         self.data_list = []
         self.receive_time_dict ={}
@@ -33,13 +33,12 @@ class db_logger_always(object):
         [tables[name].close() for name in tables]   
         return
 
-    def db_date(self):
+    def check_date(self):
         if self.db_path_date != "{0:%Y%m%d}".format(datetime.datetime.now()):
             self.db_path_date = "{0:%Y%m%d}".format(datetime.datetime.now())
-            self.data_list = []
-            self.receive_timme_dict = {}
+            self.receive_time_dict = {}
             self.close_table()
-            self.db = necstdb.opendb(self.db_path + self.db_path_date)
+            self.db = necstdb.opendb(self.db_dir + self.db_path_date)
             pass
         return
    
@@ -53,11 +52,10 @@ class db_logger_always(object):
 
             d = self.data_list.pop(0)
 
-            self.db_date()
+            self.check_date()
 
             if d['topic'] not in self.receive_time_dic:
                 self.receive_time_dict[d['topic']] = d['received_time']
-                pass
 
             elif self.receive_time_dict[d['topic']] - d['received_time'] < 10:
                 continue   
@@ -77,7 +75,7 @@ class db_logger_always(object):
                     info = {'format': 'c', 'size': 1}
 
                 elif slot['type'].startswith('byte'):
-                    info = {'format': 's', 'size': len(slot['value'])}
+                    info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
 
                 elif slot['type'].startswith('char'):
                     info = {'format': 'c', 'size': 1}
@@ -101,7 +99,7 @@ class db_logger_always(object):
                     info = {'format': 'q', 'size': 8}
 
                 elif slot['type'].startswith('string'):
-                    info = {'format': '{0}s'.len(slot['value']), 'size': len(slot['value'])}
+                    info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
                     slot['value'] = slot['value'].encode()
 
                 elif slot['type'].startswith('uint8'):
