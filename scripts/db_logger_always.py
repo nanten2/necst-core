@@ -102,6 +102,7 @@ class db_logger_always(object):
 
                 elif slot['type'].startswith('string'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
+                    slot['value'] = slot['value'].encode()
 
                 elif slot['type'].startswith('uint8'):
                     info = {'format': 'B', 'size': 1}
