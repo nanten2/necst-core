@@ -15,7 +15,7 @@ class db_logger_operation(object):
     def __init__(self):
         self.data_list = []
         self.table_dict = {}
-        self.db_dir = pathlib.Path('~/data/operation/')
+        self.db_dir = pathlib.Path.home() / 'data/operation'
         self.db_path = ''
         t1 = time.time()
         self.sub_path = rospy.Subscriber(
@@ -103,7 +103,10 @@ class db_logger_operation(object):
 
                 elif slot['type'].startswith('string'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
-                    slot['value'] = slot['value'].encode()    
+                    #print('operation : ' + slot['value'])
+                    if isinstance(slot['value'], str):
+                        slot['value'] = slot['value'].encode()
+                        pass
                         
                 elif slot['type'].startswith('uint8'):
                     info = {'format': 'B', 'size': 1}

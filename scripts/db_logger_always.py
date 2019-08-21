@@ -14,7 +14,7 @@ import std_msgs.msg
 class db_logger_always(object):
 
     def __init__(self):
-        self.db_dir = pathlib.Path('~/data/always/')
+        self.db_dir = pathlib.Path.home() / 'data/always'
         self.db_path_date = ''
         self.data_list = []
         self.receive_time_dict ={}
@@ -102,7 +102,10 @@ class db_logger_always(object):
 
                 elif slot['type'].startswith('string'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
-                    slot['value'] = slot['value'].encode()
+                    #print('always : ' + slot['value'])
+                    if isinstance(slot['value'], str):
+                        slot['value'] = slot['value'].encode()
+                        pass
 
                 elif slot['type'].startswith('uint8'):
                     info = {'format': 'B', 'size': 1}
