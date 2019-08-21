@@ -5,7 +5,7 @@ import pathlib
 import shutil
 import rospy
 
-if name == '__main__':
+if __name__ == '__main__':
     rospy.init_node()
 
     path = pathlib.Path.home()
