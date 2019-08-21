@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import time
 import pathlib
 import shutil
@@ -20,7 +21,7 @@ if __name__ == '__main__':
             if jupyter_path.exists(): continue
 
             jupyter_path.mkdir(parents=True)
-            (jupyter_path/db_name).symlink_to(db_path.relative_to(jupyter_path))
+            (jupyter_path/db_name).symlink_to(os.path.relpath(db_path, jupyter_path))
 
             tmp = jupyter_path.parent
             while tmp.name != '':
