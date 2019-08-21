@@ -57,9 +57,10 @@ class db_logger_operation(object):
 
         while True:
             if len(self.data_list) ==0:
-                time.sleep(0.01)
+                self.close_table()
                 if rospy.is_shutdown():
                     break
+                time.sleep(0.01)
                 continue
 
             d = self.data_list.pop(0)

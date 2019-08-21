@@ -45,6 +45,7 @@ class db_logger_always(object):
     def loop(self):
         while True:    
             if len(self.data_list) == 0:
+                self.close_table()
                 if rospy.is_shutdown():
                     break
                 time.sleep(0.01)
@@ -54,7 +55,7 @@ class db_logger_always(object):
 
             self.check_date()
 
-            if d['topic'] not in self.receive_time_dic:
+            if d['topic'] not in self.receive_time_dict:
                 self.receive_time_dict[d['topic']] = d['received_time']
 
             elif self.receive_time_dict[d['topic']] - d['received_time'] < 10:
