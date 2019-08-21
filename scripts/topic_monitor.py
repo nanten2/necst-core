@@ -33,12 +33,12 @@ class topic_monitor(object):
                         continue
                     if slot['key'] == 'layout':
                         continue
-                    if time.time()-data['received_time'] > 10:
+                    if time.time() - data['received_time'] > 10:
                         continue
                     if slot['key'] == 'data':
                         print(topic+" : %s"%(slot['value']))
                     else:
-                        print(topic+'.'+slot['key']+" : %s"%(slot['value']))
+                        print(topic+"."+slot['key']+" : %s"%(slot['value']))
                     continue
             time.sleep(0.1)
             continue
