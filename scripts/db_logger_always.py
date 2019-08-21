@@ -37,7 +37,7 @@ class db_logger_always(object):
         if self.db_path_date != "{0:%Y%m%d}".format(datetime.datetime.now()):
             self.db_path_date = "{0:%Y%m%d}".format(datetime.datetime.now())
             self.receive_time_dict = {}
-            self.close_table()
+            self.close_tables()
             self.db = necstdb.opendb(self.db_dir + self.db_path_date)
             pass
         return
@@ -54,7 +54,7 @@ class db_logger_always(object):
 
             self.check_date()
 
-            if d['topic'] not in self.receive_time_dic:
+            if d['topic'] not in self.receive_time_dict:
                 self.receive_time_dict[d['topic']] = d['received_time']
 
             elif self.receive_time_dict[d['topic']] - d['received_time'] < 10:

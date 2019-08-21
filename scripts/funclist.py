@@ -3,7 +3,7 @@
 import db_logger_operation
 import topic_monitor
 import db_logger_always
-import db_logger_always_vol2
+#import db_logger_always_vol2
 #import web_monitor
 
 db_logger_operation = db_logger_operation.db_logger_operation()
