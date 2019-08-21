@@ -5,6 +5,7 @@ name  = 'db_logger_operation'
 import time
 import threading
 import necstdb
+import pathlib
 
 import rospy
 import std_msgs.msg
@@ -14,6 +15,7 @@ class db_logger_operation(object):
     def __init__(self):
         self.data_list = []
         self.table_dict = {}
+        self.db_dir = pathlib.Path('~/data/operation/')
         self.db_path = ''
         t1 = time.time()
         self.sub_path = rospy.Subscriber(
@@ -32,7 +34,7 @@ class db_logger_operation(object):
             self.db_path = ''
             self.data_list = []
             self.close_tables()
-            self.db = necstdb.opendb(req.data)
+            self.db = necstdb.opendb(self.db_dir / req.data)
             self.db_path = req.data
             time.sleep(0.1)
 
@@ -57,7 +59,7 @@ class db_logger_operation(object):
 
         while True:
             if len(self.data_list) ==0:
-                self.close_table()
+                self.close_tables()
                 if rospy.is_shutdown():
                     break
                 time.sleep(0.01)

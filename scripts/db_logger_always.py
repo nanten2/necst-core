@@ -6,6 +6,7 @@ import time
 import datetime
 import threading
 import necstdb
+import pathlib
 
 import rospy
 import std_msgs.msg
@@ -13,7 +14,7 @@ import std_msgs.msg
 class db_logger_always(object):
 
     def __init__(self):
-        self.db_dir = '/home/hinotoritz/data/always/'
+        self.db_dir = pathlib.Path('~/data/always/')
         self.db_path_date = ''
         self.data_list = []
         self.receive_time_dict ={}
@@ -29,6 +30,7 @@ class db_logger_always(object):
     
     def close_tables(self):
         tables = self.table_dict
+        self.receive_time_dict = {}
         self.table_dict = {}
         [tables[name].close() for name in tables]   
         return
@@ -36,16 +38,15 @@ class db_logger_always(object):
     def check_date(self):
         if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now()):
             self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now())
-            self.receive_time_dict = {}
             self.close_tables()
-            self.db = necstdb.opendb(self.db_dir + self.db_path_date)
+            self.db = necstdb.opendb(self.db_dir / self.db_path_date)
             pass
         return
    
     def loop(self):
         while True:    
             if len(self.data_list) == 0:
-                self.close_table()
+                self.close_tables()
                 if rospy.is_shutdown():
                     break
                 time.sleep(0.01)
