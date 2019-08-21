@@ -11,7 +11,7 @@ if name == '__main__':
 
     while not rospy.is_shutdown():
         for db_path in data_paths:
-            db_name = db_path.name
+            db_name = 'result.necstdb' 
             relative_path = db_path.relative_to(path/'data')
             jupyter_path = (path/'jupyter'/relative_path.with_suffix(''))
 
