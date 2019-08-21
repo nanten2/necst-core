@@ -13,7 +13,7 @@ import std_msgs.msg
 class db_logger_always(object):
 
     def __init__(self):
-        self.db_dir = '/home/hinotoritz/data/evaluation/always/'
+        self.db_dir = '/home/hinotoritz/data/always/'
         self.db_path_date = ''
         self.data_list = []
         self.receive_time_dict ={}
@@ -34,8 +34,8 @@ class db_logger_always(object):
         return
 
     def check_date(self):
-        if self.db_path_date != "{0:%Y%m%d}".format(datetime.datetime.now()):
-            self.db_path_date = "{0:%Y%m%d}".format(datetime.datetime.now())
+        if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now()):
+            self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now())
             self.receive_time_dict = {}
             self.close_tables()
             self.db = necstdb.opendb(self.db_dir + self.db_path_date)
@@ -45,6 +45,7 @@ class db_logger_always(object):
     def loop(self):
         while True:    
             if len(self.data_list) == 0:
+                self.close_table()
                 if rospy.is_shutdown():
                     break
                 time.sleep(0.01)
