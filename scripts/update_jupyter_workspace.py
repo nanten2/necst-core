@@ -6,7 +6,7 @@ import shutil
 import rospy
 
 if __name__ == '__main__':
-    rospy.init_node()
+    rospy.init_node('update_jupyter_workspace')
 
     path = pathlib.Path.home()
     data_paths = sorted((path/'data').glob('**/*.necstdb'))
