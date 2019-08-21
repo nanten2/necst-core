@@ -8,15 +8,21 @@ import funclist
 import rospy
 import std_msgs.msg
 
-ignores = [
+ignore_topics = [
     '/rosout',
     '/rosout_agg',
+]
+
+ignore_types = [
+    'unknown type',
 ]
 
 def get_current_topic_list():
     topic_list = rospy.get_published_topics()
     for topic in topic_list[:]:
-        if topic[0] in ignores:
+        if topic[0] in ignore_topics:
+            topic_list.remove(topic)
+        elif topic[1] in ignore_types:
             topic_list.remove(topic)
             pass
         continue
