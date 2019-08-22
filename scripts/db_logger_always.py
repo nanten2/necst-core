@@ -39,7 +39,7 @@ class db_logger_always(object):
         if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now()):
             self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now())
             self.close_tables()
-            self.db = necstdb.opendb(self.db_dir / self.db_path_date)
+            self.db = necstdb.opendb(self.db_dir / self.db_path_date, mode = 'w')
             pass
         return
    
