@@ -8,15 +8,21 @@ import funclist
 import rospy
 import std_msgs.msg
 
-ignores = [
+ignore_topics = [
     '/rosout',
     '/rosout_agg',
+]
+
+ignore_types = [
+    'unknown type',
 ]
 
 def get_current_topic_list():
     topic_list = rospy.get_published_topics()
     for topic in topic_list[:]:
-        if topic[0] in ignores:
+        if topic[0] in ignore_topics:
+            topic_list.remove(topic)
+        elif topic[1] in ignore_types:
             topic_list.remove(topic)
             pass
         continue
@@ -34,14 +40,14 @@ def make_subscriber(topic):
     )
 
 def callback(req, arg):
-    keys = [attr for attr in req.__dir__() 
-            if not attr.startswith('_') 
-            and not attr in ['serialize', 'deserialize',
-                             'serialize_numpy', 'deserialize_numpy']]
-    msg_dict = {key: req.__getattribute__(key) for key in keys}
-    
-    data = {'topic': arg,'time': time.time(), 'msgs': msg_dict}
-    
+    slots = [{'key': key,
+              'type': type_,
+              'value': req.__getattribute__(key)}
+             for key, type_
+             in zip(req.__slots__, req._slot_types)]
+
+    data = {'topic': arg, 'received_time': time.time(), 'slots': slots}
+
     flist = funclist.func_li()
     for f in flist:
         f(data)
@@ -50,7 +56,7 @@ def callback(req, arg):
 
 if __name__ == '__main__':
     rospy.init_node(name)
-    
+
     subscribing_topic_list = []
     while not rospy.is_shutdown():
         current_topic_list = get_current_topic_list()
