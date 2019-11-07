@@ -6,7 +6,7 @@ import time
 class receiver(object):
     recv_msg = None
     received = False
-    
+
     def __init__(self, topic_name, data_class):
         self.subscriber = rospy.Subscriber(
             name = topic_name,
@@ -15,31 +15,31 @@ class receiver(object):
             queue_size = 1,
         )
         pass
-    
+
     def __del__(self):
         self.subscriber.unregister()
         pass
-    
+
     def callback(self, msg):
         self.recv_msg = msg
         self.received = True
         return
-    
+
     def recv(self):
         while True:
             if self.received == True:
                 break
             time.sleep(0.001)
             continue
-        return self.recv_msg
-    
+        return self.recv_msg.data
 
-    
+
+
 def recv(topic_name, data_class):
     r = receiver(topic_name, data_class)
     msg = r.recv()
     del(r)
-    return msg
+    return msg.data
 
 
 __all__ = [
