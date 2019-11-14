@@ -8,11 +8,10 @@ import rospy
 
 if __name__ == '__main__':
     rospy.init_node('update_jupyter_workspace')
-
     path = pathlib.Path.home()
-    data_paths = sorted((path/'data').glob('**/*.necstdb'))
 
     while not rospy.is_shutdown():
+        data_paths = sorted((path/'data').glob('**/*.necstdb'))
         for db_path in data_paths:
             db_name = 'result.necstdb'
             relative_path = db_path.relative_to(path/'data')
