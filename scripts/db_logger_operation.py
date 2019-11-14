@@ -69,19 +69,28 @@ class db_logger_operation(object):
 
             table_name = d['topic'].replace('/', '-').strip('-')
             table_data = [d['received_time']]
-            table_info = [{'key': 'timestamp',
+            table_info = [{'key': 'received_time',
                            'format': 'd',
                            'size': 8}]
 
             for slot in d['slots']:
                 if slot['type'].startswith('bool'):
                     info = {'format': 'c', 'size': 1}
+                
+                elif slot['type'].startswith('byte[]'):
+                    continue
 
                 elif slot['type'].startswith('byte'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
 
+                elif slot['type'].startswith('char[]'):
+                    continue
+
                 elif slot['type'].startswith('char'):
                     info = {'format': 'c', 'size': 1}
+                    if isinstance(slot['value'], str):
+                        slot['value'] = slot['value'].encode()
+                        pass
 
                 elif slot['type'].startswith('float32'):
                     info = {'format': 'f', 'size': 4}
@@ -101,9 +110,17 @@ class db_logger_operation(object):
                 elif slot['type'].startswith('int64'):
                     info = {'format': 'q', 'size': 8}
 
+                elif slot['type'].startswith('string[]'):
+                    continue
+
                 elif slot['type'].startswith('string'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
-                    #print('operation : ' + slot['value'])
+                    if len(slot['value'])%4 == 0:
+                        str_size = len(slot['value'])
+                    else:
+                        str_size = len(slot['value']) + (4-len(slot['value'])%4)
+
+                    info = {'format': '{0}s'.format(str_size), 'size': str_size}
                     if isinstance(slot['value'], str):
                         slot['value'] = slot['value'].encode()
                         pass
