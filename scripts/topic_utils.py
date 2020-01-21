@@ -39,7 +39,7 @@ def recv(topic_name, data_class):
     r = receiver(topic_name, data_class)
     msg = r.recv()
     del(r)
-    return msg.data
+    return msg
 
 
 __all__ = [
