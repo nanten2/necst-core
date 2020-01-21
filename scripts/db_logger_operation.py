@@ -72,10 +72,12 @@ class db_logger_operation(object):
             table_info = [{'key': 'timestamp',
                            'format': 'd',
                            'size': 8}]
-
+            
             for slot in d['slots']:
+        
                 if slot['type'].startswith('bool'):
-                    info = {'format': 'c', 'size': 1}
+                    slot['value'] = int(slot['value'])
+                    info = {'format': 'i', 'size': 4}
 
                 elif slot['type'].startswith('byte'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
@@ -144,7 +146,8 @@ class db_logger_operation(object):
 
                 self.table_dict[table_name] = self.db.open_table(table_name, mode='ab')
                 pass
-
+            
+    
             self.table_dict[table_name].append(*table_data)
             continue
         return

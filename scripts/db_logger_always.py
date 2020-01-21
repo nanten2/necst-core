@@ -65,23 +65,37 @@ class db_logger_always(object):
             else:
                  self.receive_time_dict[d['topic']] = d['received_time'] 
                  pass
+            
+            if d['topic'] == '/xffts_board01':
+                continue
+
+            if d['topic'] == '/xffts_board02':
+                continue
+
+            if d['topic'] == '/xffts_board03':
+                continue
+
+            if d['topic'] == '/xffts_board04':
+                continue
 
             table_name = d['topic'].replace('/', '-').strip('-')
             table_data = [d['received_time']]
             table_info = [{'key': 'timestamp',
                            'format': 'd',
                            'size': 8}]
-
+            
             for slot in d['slots']:
+                
                 if slot['type'].startswith('bool'):
-                    info = {'format': 'c', 'size': 1}
-
+                    slot['value'] = int(slot['value'])
+                    info = {'format': 'i', 'size': 4}
+            
                 elif slot['type'].startswith('byte'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
 
                 elif slot['type'].startswith('char'):
-                    info = {'format': 'c', 'size': 1}
-
+                    #info = {'format': 'c', 'size': 1}
+                    pass
                 elif slot['type'].startswith('float32'):
                     info = {'format': 'f', 'size': 4}
 
@@ -143,6 +157,6 @@ class db_logger_always(object):
 
                 self.table_dict[table_name] = self.db.open_table(table_name, mode='ab')
                 pass
-
+            
             self.table_dict[table_name].append(*table_data)
         return   
