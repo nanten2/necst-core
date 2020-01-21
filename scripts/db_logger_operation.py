@@ -69,7 +69,7 @@ class db_logger_operation(object):
 
             table_name = d['topic'].replace('/', '-').strip('-')
             table_data = [d['received_time']]
-            table_info = [{'key': 'received_time',
+            table_info = [{'key': 'timestamp',
                            'format': 'd',
                            'size': 8}]
 
