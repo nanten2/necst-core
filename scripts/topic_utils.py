@@ -26,12 +26,17 @@ class receiver(object):
         return
 
     def recv(self):
-        while True:
-            if self.received == True:
-                break
-            time.sleep(0.001)
-            continue
-        return self.recv_msg.data
+        try:
+            while True:
+                if self.received == True:
+                    break
+                time.sleep(0.001)
+                continue
+            return self.recv_msg.data
+
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
+            pass
 
 
 
