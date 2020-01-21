@@ -72,19 +72,13 @@ class db_logger_operation(object):
             table_info = [{'key': 'received_time',
                            'format': 'd',
                            'size': 8}]
-            
+
             for slot in d['slots']:
-        
+
                 if slot['type'].startswith('bool'):
-<<<<<<< HEAD
                     slot['value'] = int(slot['value'])
                     info = {'format': 'i', 'size': 4}
-=======
-                    info = {'format': 'c', 'size': 1}
-                
-                elif slot['type'].startswith('byte[]'):
-                    continue
->>>>>>> 0c3237050f4337dd56b130410289adc5a0ef8505
+
 
                 elif slot['type'].startswith('byte'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
@@ -130,7 +124,7 @@ class db_logger_operation(object):
                     if isinstance(slot['value'], str):
                         slot['value'] = slot['value'].encode()
                         pass
-                        
+
                 elif slot['type'].startswith('uint8'):
                     info = {'format': 'B', 'size': 1}
 
@@ -167,8 +161,8 @@ class db_logger_operation(object):
 
                 self.table_dict[table_name] = self.db.open_table(table_name, mode='ab')
                 pass
-            
-    
+
+
             self.table_dict[table_name].append(*table_data)
             continue
         return
