@@ -115,12 +115,7 @@ class db_logger_operation(object):
 
                 elif slot['type'].startswith('string'):
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
-                    if len(slot['value'])%4 == 0:
-                        str_size = len(slot['value'])
-                    else:
-                        str_size = len(slot['value']) + (4-len(slot['value'])%4)
-
-                    info = {'format': '{0}s'.format(str_size), 'size': str_size}
+                    #print('always : ' + slot['value'])
                     if isinstance(slot['value'], str):
                         slot['value'] = slot['value'].encode()
                         pass
