@@ -29,6 +29,11 @@ class topic_monitor_gspread(object):
 
         self.dewar_tmp = {}
 
+        self.dewar_tmp[1] = 0
+        self.dewar_tmp[2] = 0
+        self.dewar_tmp[3] = 0
+        self.dewar_tmp[4] = 0
+
         pass
 
     def dewar_temp(self, q, ch):
