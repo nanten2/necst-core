@@ -17,8 +17,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 class topic_monitor_gspread(object):
 
 
-    json = ""
-    spread_sheet_key = ""
+    json = "/home/telescopio/ros/src/necst-sisrx_b67/lib/double-runway-282511-758acb947e09.json"
+    spread_sheet_key = "1eQLqUqIzj32dqqfcpFc5-DMvGDqL7Nt7jnGnZk8stTk"
     ws = regist_gspread(json,spread_sheet_key)
 
     def __init__(self):
