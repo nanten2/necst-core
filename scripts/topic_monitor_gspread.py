@@ -26,6 +26,8 @@ class topic_monitor_gspread(object):
         rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch2",std_msgs.msg.Float64,self.dewar_temp,callback_args=2)
         rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch3",std_msgs.msg.Float64,self.dewar_temp,callback_args=3)
         rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch4",std_msgs.msg.Float64,self.dewar_temp,callback_args=4)
+        rospy.Subscriber("/dev/tpg/ip_192_168_100_178/pressure",std_msgs.msg.Float64,self.dewar_press)
+
 
         self.dewar_tmp = {}
 
@@ -40,6 +42,11 @@ class topic_monitor_gspread(object):
         self.dewar_tmp[ch] = q.data
         return
 
+    def dewar_press(self, q,):
+        self.dewar_pressure = q.data
+        return
+
+
     def connect_gspread(self,json,key):
         scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
         credentials = ServiceAccountCredentials.from_json_keyfile_name(json, scope)
@@ -51,19 +58,26 @@ class topic_monitor_gspread(object):
     def regist_gspread(self):
         while not rospy.is_shutdown():
 
+
+            ds = self.ws.range('G5:G14')
+
+            #dewar pressure
+            ds[0].value = self.dewar_pressure
+
             #dewar tmp
-            ds = self.ws.range('G9:G14')
-            ds[0].value = self.dewar_tmp[1]
-            ds[1].value = self.dewar_tmp[2]
-            ds[2].value = self.dewar_tmp[3]
-            ds[3].value = self.dewar_tmp[4]
+            ds[4].value = self.dewar_tmp[1]
+            ds[5].value = self.dewar_tmp[2]
+            ds[6].value = self.dewar_tmp[3]
+            ds[7].value = self.dewar_tmp[4]
             #self.ws.update_cell(9,  7 , self.dewar_tmp[1])
             #self.ws.update_cell(10, 7 , self.dewar_tmp[2])
             #self.ws.update_cell(11, 7 , self.dewar_tmp[3])
             #self.ws.update_cell(12, 7 , self.dewar_tmp[4])
+
+
             t = datetime.datetime.now()
             update_t = t.strftime("%Y/%m/%d-%H:%M:%S")
-            ds[4].value = update_t
+            ds[8].value = update_t
 
             self.ws.update_cells(ds)
             print(update_t)
