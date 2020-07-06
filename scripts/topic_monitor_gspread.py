@@ -64,6 +64,7 @@ class topic_monitor_gspread(object):
             t = datetime.datetime.now()
             update_t = t.strftime("%Y/%m/%d-%H:%M:%S")
             ds.value[4] = update_t
+            print(update_t)
 
             time.sleep(5)
 
