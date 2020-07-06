@@ -69,7 +69,7 @@ class topic_monitor_gspread(object):
             print(update_t)
             #print(ds)
 
-            time.sleep(5)
+            time.sleep(3)
 
 
             continue
