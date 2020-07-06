@@ -52,10 +52,10 @@ class topic_monitor_gspread(object):
         while not rospy.is_shutdown():
 
             #dewar tmp
-            self.ws.update_cell(7,9, self.dewar_tmp[1])
-            self.ws.update_cell(7,10, self.dewar_tmp[2])
-            self.ws.update_cell(7,11, self.dewar_tmp[3])
-            self.ws.update_cell(7,12, self.dewar_tmp[4])
+            self.ws.update_cell(9,  7 , self.dewar_tmp[1])
+            self.ws.update_cell(10, 7 , self.dewar_tmp[2])
+            self.ws.update_cell(11, 7 , self.dewar_tmp[3])
+            self.ws.update_cell(12, 7 , self.dewar_tmp[4])
 
             time.sleep(3)
 
