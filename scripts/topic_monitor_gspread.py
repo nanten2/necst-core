@@ -53,10 +53,10 @@ class topic_monitor_gspread(object):
 
             #dewar tmp
             ds = self.ws.range('G9:G14')
-            ds.value[0] = self.dewar_tmp[1]
-            ds.value[1] = self.dewar_tmp[2]
-            ds.value[2] = self.dewar_tmp[3]
-            ds.value[3] = self.dewar_tmp[4]
+            ds[0].value = self.dewar_tmp[1]
+            ds[1].value = self.dewar_tmp[2]
+            ds[2].value = self.dewar_tmp[3]
+            ds[3].value = self.dewar_tmp[4]
             #self.ws.update_cell(9,  7 , self.dewar_tmp[1])
             #self.ws.update_cell(10, 7 , self.dewar_tmp[2])
             #self.ws.update_cell(11, 7 , self.dewar_tmp[3])
