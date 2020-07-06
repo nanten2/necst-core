@@ -4,7 +4,7 @@ name = 'topic_monitor_gspread'
 
 # ----
 import threading
-
+import datetime
 import rospy
 import time
 import std_msgs.msg
@@ -52,7 +52,7 @@ class topic_monitor_gspread(object):
         while not rospy.is_shutdown():
 
             #dewar tmp
-            ds = self.ws.range('G9:G13')
+            ds = self.ws.range('G9:G14')
             ds.value[0] = self.dewar_tmp[1]
             ds.value[1] = self.dewar_tmp[2]
             ds.value[2] = self.dewar_tmp[3]
@@ -61,6 +61,9 @@ class topic_monitor_gspread(object):
             #self.ws.update_cell(10, 7 , self.dewar_tmp[2])
             #self.ws.update_cell(11, 7 , self.dewar_tmp[3])
             #self.ws.update_cell(12, 7 , self.dewar_tmp[4])
+            t = datetime.datetime.now()
+            update_t = t.strftime("%Y/%m/%d-%H:%M:%S")
+            ds.value[4] = update_t
 
             time.sleep(5)
 
