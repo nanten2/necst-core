@@ -63,7 +63,7 @@ class topic_monitor_gspread(object):
             #self.ws.update_cell(12, 7 , self.dewar_tmp[4])
             t = datetime.datetime.now()
             update_t = t.strftime("%Y/%m/%d-%H:%M:%S")
-            ds.value[4] = update_t
+            ds[4].value = update_t
             print(update_t)
 
             time.sleep(5)
