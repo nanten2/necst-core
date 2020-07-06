@@ -20,7 +20,7 @@ class topic_monitor_gspread(object):
 
         json = "/home/telescopio/ros/src/necst-sisrx_b67/lib/double-runway-282511-758acb947e09.json"
         spread_sheet_key = "1eQLqUqIzj32dqqfcpFc5-DMvGDqL7Nt7jnGnZk8stTk"
-        self.ws = self.regist_gspread(json,spread_sheet_key)
+        self.ws = self.connect_gspread(json,spread_sheet_key)
 
         rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch1",std_msgs.msg.Float64,self.dewar_temp,callback_args=1)
         rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch2",std_msgs.msg.Float64,self.dewar_temp,callback_args=2)
