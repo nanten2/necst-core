@@ -31,11 +31,12 @@ class topic_monitor_gspread(object):
 
         self.dewar_tmp = {}
 
-        self.dewar_pressure = 0
-        self.dewar_tmp[1] = 0
-        self.dewar_tmp[2] = 0
-        self.dewar_tmp[3] = 0
-        self.dewar_tmp[4] = 0
+        self.dewar_pressure = None
+        self.dewar_tmp[1] = None
+        self.dewar_tmp[2] = None
+        self.dewar_tmp[3] = None
+        self.dewar_tmp[4] = None
+        self.update_t = None
 
         pass
 
