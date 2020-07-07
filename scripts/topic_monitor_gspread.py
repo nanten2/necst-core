@@ -80,8 +80,6 @@ class topic_monitor_gspread(object):
             ds[8].value = self.update_t
 
             self.ws.update_cells(ds)
-            print(update_t)
-            #print(ds)
 
             time.sleep(3)
 
