@@ -41,6 +41,8 @@ class topic_monitor_gspread(object):
 
     def dewar_temp(self, q, ch):
         self.dewar_tmp[ch] = q.data
+        t = datetime.datetime.now()
+        self.update_t = t.strftime("%Y/%m/%d-%H:%M:%S")
         return
 
     def dewar_press(self, q,):
@@ -74,11 +76,7 @@ class topic_monitor_gspread(object):
             #self.ws.update_cell(10, 7 , self.dewar_tmp[2])
             #self.ws.update_cell(11, 7 , self.dewar_tmp[3])
             #self.ws.update_cell(12, 7 , self.dewar_tmp[4])
-
-
-            t = datetime.datetime.now()
-            update_t = t.strftime("%Y/%m/%d-%H:%M:%S")
-            ds[8].value = update_t
+            ds[8].value = self.update_t
 
             self.ws.update_cells(ds)
             print(update_t)
