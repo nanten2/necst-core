@@ -32,9 +32,9 @@ class topic_monitor_gspread(object):
         rospy.Subscriber("/dev/cpz340816/rsw0/ch2",std_msgs.msg.Float64,self.b7_sis,callback_args=1)
         #sis b6
         rospy.Subscriber("/dev/cpz3177/rsw0/ch1",std_msgs.msg.Float64,self.b6_sis,callback_args=2)
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch2",std_msgs.msg.Float64,self.b6_sis,callback_args=2)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch2",std_msgs.msg.Float64,self.b6_sis,callback_args=3)
         #sis b7
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.b7_sis,callback_args=3)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.b7_sis,callback_args=2)
         rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.b7_sis,callback_args=3)
 
         #coil
