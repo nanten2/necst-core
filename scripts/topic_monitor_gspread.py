@@ -42,6 +42,8 @@ class topic_monitor_gspread(object):
         #rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
 
         self.dewar_tmp = {}
+        self.sis_b6= {}
+        self.sis_b7= {}
 
         self.dewar_pressure = None
         self.dewar_tmp[1] = None
@@ -49,6 +51,12 @@ class topic_monitor_gspread(object):
         self.dewar_tmp[3] = None
         self.dewar_tmp[4] = None
         self.update_t = None
+        self.sis_b6[1]=None
+        self.sis_b6[2]=None
+        self.sis_b6[3]=None
+        self.sis_b7[1]=None
+        self.sis_b7[2]=None
+        self.sis_b7[3]=None
 
         pass
 
