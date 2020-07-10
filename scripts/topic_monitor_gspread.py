@@ -51,12 +51,12 @@ class topic_monitor_gspread(object):
         self.dewar_tmp[3] = None
         self.dewar_tmp[4] = None
         self.update_t = None
-        self.sis_b6[1]=None
-        self.sis_b6[2]=None
-        self.sis_b6[3]=None
-        self.sis_b7[1]=None
-        self.sis_b7[2]=None
-        self.sis_b7[3]=None
+        self.sis_b6[1]=0
+        self.sis_b6[2]=0
+        self.sis_b6[3]=0
+        self.sis_b7[1]=0
+        self.sis_b7[2]=0
+        self.sis_b7[3]=0
 
         pass
 
