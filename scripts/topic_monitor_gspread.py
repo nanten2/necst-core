@@ -63,21 +63,21 @@ class topic_monitor_gspread(object):
         while not rospy.is_shutdown():
 
 
-            ds = self.ws.range('G5:G14')
+            ds = self.ws.range('A1:K15')
 
             #dewar pressure
-            ds[0].value = self.dewar_pressure
+            ds[8].value = self.dewar_pressure
 
             #dewar tmp
-            ds[4].value = self.dewar_tmp[1]
-            ds[5].value = self.dewar_tmp[2]
-            ds[6].value = self.dewar_tmp[3]
-            ds[7].value = self.dewar_tmp[4]
+            #ds[4].value = self.dewar_tmp[1]
+            #ds[5].value = self.dewar_tmp[2]
+            #ds[6].value = self.dewar_tmp[3]
+            #ds[7].value = self.dewar_tmp[4]
             #self.ws.update_cell(9,  7 , self.dewar_tmp[1])
             #self.ws.update_cell(10, 7 , self.dewar_tmp[2])
             #self.ws.update_cell(11, 7 , self.dewar_tmp[3])
             #self.ws.update_cell(12, 7 , self.dewar_tmp[4])
-            ds[8].value = self.update_t
+            #ds[8].value = self.update_t
 
             self.ws.update_cells(ds)
 
