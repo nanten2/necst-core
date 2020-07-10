@@ -103,8 +103,8 @@ class topic_monitor_gspread(object):
             ds[117].value = self.dewar_tmp[4]
             ds[127].value = self.update_t
 
-            ds[50].value = self.sis_b6[1]/3
-            ds[60].value = self.sis_b7[1]/3
+            ds[50].value = self.sis_b6[1]/3.0
+            ds[60].value = self.sis_b7[1]/3.0
             #sis i
             ds[90].value = self.sis_b6[2]/0.002
             ds[100].value = self.sis_b7[2]/0.002
