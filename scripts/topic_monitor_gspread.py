@@ -28,6 +28,18 @@ class topic_monitor_gspread(object):
         rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch4",std_msgs.msg.Float64,self.dewar_temp,callback_args=4)
         rospy.Subscriber("/dev/tpg/ip_192_168_100_178/pressure",std_msgs.msg.Float64,self.dewar_press)
 
+        rospy.Subscriber("/dev/cpz340816/rsw0/ch1",std_msgs.msg.Float64,self.sis_b6,callback_args=1)
+        rospy.Subscriber("/dev/cpz340816/rsw0/ch2",std_msgs.msg.Float64,self.sis_b7,callback_args=1)
+        #sis b6
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch1",std_msgs.msg.Float64,self.sis_b6,callback_args=2)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch2",std_msgs.msg.Float64,self.sis_b6,callback_args=2)
+        #sis b7
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
+
+        #coil
+        #rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
+        #rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
 
         self.dewar_tmp = {}
 
@@ -50,6 +62,14 @@ class topic_monitor_gspread(object):
         self.dewar_pressure = q.data
         return
 
+    def sis_b6(self, q, ch):
+        self.sis_b6[ch] = q.data
+        return
+
+    def sis_b7(self, q, ch):
+        self.sis_b7 = q.data
+        return
+
 
     def connect_gspread(self,json,key):
         scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
@@ -66,18 +86,23 @@ class topic_monitor_gspread(object):
             ds = self.ws.range('A1:K15')
 
             #dewar pressure
-            ds[8].value = self.dewar_pressure
+            ds[47].value = self.dewar_pressure
 
             #dewar tmp
-            #ds[4].value = self.dewar_tmp[1]
-            #ds[5].value = self.dewar_tmp[2]
-            #ds[6].value = self.dewar_tmp[3]
-            #ds[7].value = self.dewar_tmp[4]
-            #self.ws.update_cell(9,  7 , self.dewar_tmp[1])
-            #self.ws.update_cell(10, 7 , self.dewar_tmp[2])
-            #self.ws.update_cell(11, 7 , self.dewar_tmp[3])
-            #self.ws.update_cell(12, 7 , self.dewar_tmp[4])
-            #ds[8].value = self.update_t
+            ds[87].value = self.dewar_tmp[1]
+            ds[97].value = self.dewar_tmp[2]
+            ds[107].value = self.dewar_tmp[3]
+            ds[117].value = self.dewar_tmp[4]
+            ds[127].value = self.update_t
+
+            ds[50].value = self.sis_b6[1]/3
+            ds[60].value = self.sis_b7[1]/3
+            #sis i
+            ds[90].value = self.sis_b6[2]/0.002
+            ds[100].value = self.sis_b7[2]/0.002
+            #sis v
+            ds[120].value = self.sis_b6[2]/0.2
+            ds[130].value = self.sis_b7[2]/0.2
 
             self.ws.update_cells(ds)
 
