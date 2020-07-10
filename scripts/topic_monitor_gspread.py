@@ -75,7 +75,7 @@ class topic_monitor_gspread(object):
         return
 
     def b7_sis(self, q, ch):
-        self.sis_b7 = q.data
+        self.sis_b7[ch] = q.data
         return
 
 
