@@ -91,7 +91,7 @@ class topic_monitor_gspread(object):
         while not rospy.is_shutdown():
 
 
-            ds = self.ws.range('A1:K15')
+            ds = self.ws.range('A1:J15')
 
             #dewar pressure
             ds[47].value = self.dewar_pressure
