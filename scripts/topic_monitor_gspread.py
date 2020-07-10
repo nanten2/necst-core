@@ -28,14 +28,14 @@ class topic_monitor_gspread(object):
         rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch4",std_msgs.msg.Float64,self.dewar_temp,callback_args=4)
         rospy.Subscriber("/dev/tpg/ip_192_168_100_178/pressure",std_msgs.msg.Float64,self.dewar_press)
 
-        rospy.Subscriber("/dev/cpz340816/rsw0/ch1",std_msgs.msg.Float64,self.sis_b6,callback_args=1)
-        rospy.Subscriber("/dev/cpz340816/rsw0/ch2",std_msgs.msg.Float64,self.sis_b7,callback_args=1)
+        rospy.Subscriber("/dev/cpz340816/rsw0/ch1",std_msgs.msg.Float64,self.b6_sis,callback_args=1)
+        rospy.Subscriber("/dev/cpz340816/rsw0/ch2",std_msgs.msg.Float64,self.b7_sis,callback_args=1)
         #sis b6
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch1",std_msgs.msg.Float64,self.sis_b6,callback_args=2)
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch2",std_msgs.msg.Float64,self.sis_b6,callback_args=2)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch1",std_msgs.msg.Float64,self.b6_sis,callback_args=2)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch2",std_msgs.msg.Float64,self.b6_sis,callback_args=2)
         #sis b7
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.b7_sis,callback_args=3)
+        rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.b7_sis,callback_args=3)
 
         #coil
         #rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
@@ -62,11 +62,11 @@ class topic_monitor_gspread(object):
         self.dewar_pressure = q.data
         return
 
-    def sis_b6(self, q, ch):
+    def b6_sis(self, q, ch):
         self.sis_b6[ch] = q.data
         return
 
-    def sis_b7(self, q, ch):
+    def b7_sis(self, q, ch):
         self.sis_b7 = q.data
         return
 
