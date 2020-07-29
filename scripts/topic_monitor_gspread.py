@@ -18,6 +18,23 @@ class topic_monitor_gspread(object):
 
     def __init__(self):
 
+        self.dewar_tmp = {}
+        self.sis_b6= {}
+        self.sis_b7= {}
+
+        self.dewar_pressure = None
+        self.dewar_tmp[1] = None
+        self.dewar_tmp[2] = None
+        self.dewar_tmp[3] = None
+        self.dewar_tmp[4] = None
+        self.update_t = None
+        self.sis_b6[1]=0
+        self.sis_b6[2]=0
+        self.sis_b6[3]=0
+        self.sis_b7[1]=0
+        self.sis_b7[2]=0
+        self.sis_b7[3]=0
+
         json = "/home/telescopio/ros/src/necst-sisrx_b67/lib/double-runway-282511-758acb947e09.json"
         spread_sheet_key = "1eQLqUqIzj32dqqfcpFc5-DMvGDqL7Nt7jnGnZk8stTk"
         self.ws = self.connect_gspread(json,spread_sheet_key)
@@ -41,22 +58,6 @@ class topic_monitor_gspread(object):
         #rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
         #rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
 
-        self.dewar_tmp = {}
-        self.sis_b6= {}
-        self.sis_b7= {}
-
-        self.dewar_pressure = None
-        self.dewar_tmp[1] = None
-        self.dewar_tmp[2] = None
-        self.dewar_tmp[3] = None
-        self.dewar_tmp[4] = None
-        self.update_t = None
-        self.sis_b6[1]=0
-        self.sis_b6[2]=0
-        self.sis_b6[3]=0
-        self.sis_b7[1]=0
-        self.sis_b7[2]=0
-        self.sis_b7[3]=0
 
         pass
 
@@ -66,7 +67,7 @@ class topic_monitor_gspread(object):
         self.update_t = t.strftime("%Y/%m/%d-%H:%M:%S")
         return
 
-    def dewar_press(self, q,):
+    def dewar_press(self, q):
         self.dewar_pressure = q.data
         return
 
