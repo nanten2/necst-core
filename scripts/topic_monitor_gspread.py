@@ -21,6 +21,7 @@ class topic_monitor_gspread(object):
         self.dewar_tmp = {}
         self.sis_b6= {}
         self.sis_b7= {}
+        self.coil_b7 = {}
 
         self.dewar_pressure = None
         self.dewar_tmp[1] = None
@@ -28,35 +29,41 @@ class topic_monitor_gspread(object):
         self.dewar_tmp[3] = None
         self.dewar_tmp[4] = None
         self.update_t = None
-        self.sis_b6[1]=0
-        self.sis_b6[2]=0
-        self.sis_b6[3]=0
-        self.sis_b7[1]=0
-        self.sis_b7[2]=0
-        self.sis_b7[3]=0
+        self.sis_b6[1]=None
+        self.sis_b6[2]=None
+        self.sis_b6[3]=None
+        self.sis_b7[1]=None
+        self.sis_b7[2]=None
+        self.sis_b7[3]=None
+        self.coil_b7[1]=None
+        self.coil_b7[2]=None
 
         json = "/home/telescopio/ros/src/necst-sisrx_b67/lib/double-runway-282511-758acb947e09.json"
         spread_sheet_key = "1eQLqUqIzj32dqqfcpFc5-DMvGDqL7Nt7jnGnZk8stTk"
         self.ws = self.connect_gspread(json,spread_sheet_key)
 
-        rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch1",std_msgs.msg.Float64,self.dewar_temp,callback_args=1)
-        rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch2",std_msgs.msg.Float64,self.dewar_temp,callback_args=2)
-        rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch3",std_msgs.msg.Float64,self.dewar_temp,callback_args=3)
-        rospy.Subscriber("/dev/218/ip_192_168_100_45/temp/ch4",std_msgs.msg.Float64,self.dewar_temp,callback_args=4)
+        #temp
+        rospy.Subscriber("/dev/218/ip_192_168_100_46/temp/ch1",std_msgs.msg.Float64,self.dewar_temp,callback_args=1)
+        rospy.Subscriber("/dev/218/ip_192_168_100_46/temp/ch2",std_msgs.msg.Float64,self.dewar_temp,callback_args=2)
+        rospy.Subscriber("/dev/218/ip_192_168_100_46/temp/ch3",std_msgs.msg.Float64,self.dewar_temp,callback_args=3)
+        rospy.Subscriber("/dev/218/ip_192_168_100_46/temp/ch4",std_msgs.msg.Float64,self.dewar_temp,callback_args=4)
         rospy.Subscriber("/dev/tpg/ip_192_168_100_178/pressure",std_msgs.msg.Float64,self.dewar_press)
 
-        rospy.Subscriber("/dev/cpz340816/rsw0/ch1",std_msgs.msg.Float64,self.b6_sis,callback_args=1)
-        rospy.Subscriber("/dev/cpz340816/rsw0/ch2",std_msgs.msg.Float64,self.b7_sis,callback_args=1)
+        #sisi v
+        #rospy.Subscriber("/dev/cpz340816/rsw0/ch1",std_msgs.msg.Float64,self.b6_sis,callback_args=1)
+        #rospy.Subscriber("/dev/cpz340816/rsw0/ch2",std_msgs.msg.Float64,self.b7_sis,callback_args=1)
+
         #sis b6
         rospy.Subscriber("/dev/cpz3177/rsw0/ch1",std_msgs.msg.Float64,self.b6_sis,callback_args=2)
         rospy.Subscriber("/dev/cpz3177/rsw0/ch2",std_msgs.msg.Float64,self.b6_sis,callback_args=3)
+
         #sis b7
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.b7_sis,callback_args=2)
-        rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.b7_sis,callback_args=3)
+        #rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.b7_sis,callback_args=2)
+        #rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.b7_sis,callback_args=3)
 
         #coil
-        #rospy.Subscriber("/dev/cpz3177/rsw0/ch3",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
-        #rospy.Subscriber("/dev/cpz3177/rsw0/ch4",std_msgs.msg.Float64,self.sis_b7,callback_args=3)
+        rospy.Subscriber("/dev/pmx18/ip_192_168_100_175/volt",std_msgs.msg.Float64,self.b7_coil,callback_args=1)
+        #rospy.Subscriber("/dev/pmx18/ip_192_168_100_175/curr",std_msgs.msg.Float64,self.b7_coil,callback_args=2)
 
 
         pass
@@ -77,6 +84,10 @@ class topic_monitor_gspread(object):
 
     def b7_sis(self, q, ch):
         self.sis_b7[ch] = q.data
+        return
+
+    def b7_coil(self, q, args):
+        self.coil_b7[args] = q.data
         return
 
 
@@ -102,16 +113,23 @@ class topic_monitor_gspread(object):
             ds[116].value = self.dewar_tmp[4]
             ds[126].value = self.update_t
 
+            #sis bias
             #ds[49].value = self.sis_b6[1]/3.0
             #ds[60].value = self.sis_b7[1]/3.0
+
             #sis i
             ds[89].value = self.sis_b6[2]/0.002
             ds[99].value = self.sis_b7[2]/0.002
+
             #sis v
             ds[119].value = self.sis_b6[3]/0.2
             ds[129].value = self.sis_b7[3]/0.2
 
+            #sisi coil
+            ds[79].value = self.coil_b7[1]
+
             self.ws.update_cells(ds)
+
         except:
             print("something error during update value")
 
