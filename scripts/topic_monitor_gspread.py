@@ -90,36 +90,37 @@ class topic_monitor_gspread(object):
 
     def regist_gspread(self):
         while not rospy.is_shutdown():
+            try：
+                ds = self.ws.range('A1:J15')
 
+                #dewar pressure
+                ds[46].value = self.dewar_pressure
 
-            ds = self.ws.range('A1:J15')
+                #dewar tmp
+                ds[86].value = self.dewar_tmp[1]
+                ds[96].value = self.dewar_tmp[2]
+                ds[106].value = self.dewar_tmp[3]
+                ds[116].value = self.dewar_tmp[4]
+                ds[126].value = self.update_t
 
-            #dewar pressure
-            ds[46].value = self.dewar_pressure
+                #ds[49].value = self.sis_b6[1]/3.0
+                #ds[60].value = self.sis_b7[1]/3.0
+                #sis i
+                ds[89].value = self.sis_b6[2]/0.002
+                ds[99].value = self.sis_b7[2]/0.002
+                #sis v
+                ds[119].value = self.sis_b6[3]/0.2
+                ds[129].value = self.sis_b7[3]/0.2
 
-            #dewar tmp
-            ds[86].value = self.dewar_tmp[1]
-            ds[96].value = self.dewar_tmp[2]
-            ds[106].value = self.dewar_tmp[3]
-            ds[116].value = self.dewar_tmp[4]
-            ds[126].value = self.update_t
+                self.ws.update_cells(ds)
 
-            #ds[49].value = self.sis_b6[1]/3.0
-            #ds[60].value = self.sis_b7[1]/3.0
-            #sis i
-            ds[89].value = self.sis_b6[2]/0.002
-            ds[99].value = self.sis_b7[2]/0.002
-            #sis v
-            ds[119].value = self.sis_b6[3]/0.2
-            ds[129].value = self.sis_b7[3]/0.2
+                time.sleep(3)
 
-            self.ws.update_cells(ds)
-
-            time.sleep(3)
+            except:
+                pass
 
 
             continue
-        return
 
 
     def thread(self):
