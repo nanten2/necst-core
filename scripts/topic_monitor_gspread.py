@@ -115,6 +115,8 @@ class topic_monitor_gspread(object):
                 self.ws.update_cells(ds)
 
                 time.sleep(3)
+            else:
+                pass
 
             continue
 
