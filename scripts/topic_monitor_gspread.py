@@ -90,7 +90,7 @@ class topic_monitor_gspread(object):
 
     def regist_gspread(self):
         while not rospy.is_shutdown():
-            try：
+            try:
                 ds = self.ws.range('A1:J15')
 
                 #dewar pressure
@@ -115,10 +115,6 @@ class topic_monitor_gspread(object):
                 self.ws.update_cells(ds)
 
                 time.sleep(3)
-
-            except:
-                pass
-
 
             continue
 
