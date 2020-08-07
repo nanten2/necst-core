@@ -118,12 +118,12 @@ class topic_monitor_gspread(object):
             #ds[60].value = self.sis_b7[1]/3.0
 
             #sis i
-            ds[89].value = self.sis_b6[2]/0.002
-            ds[99].value = self.sis_b7[2]/0.002
+            ds[89].value = self.sis_b6[2]
+            ds[99].value = self.sis_b7[2]
 
             #sis v
-            ds[119].value = self.sis_b6[3]/0.2
-            ds[129].value = self.sis_b7[3]/0.2
+            ds[119].value = self.sis_b6[3]
+            ds[129].value = self.sis_b7[3]
 
             #sisi coil
             ds[79].value = self.coil_b7[1]
