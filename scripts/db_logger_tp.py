@@ -43,8 +43,8 @@ class db_logger_tp(object):
         return
 
     def check_date(self):
-        if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now()):
-            self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now())
+        if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d/%H%M}.necstdb".format(datetime.datetime.now()):
+            self.db_path_date = "{0:%Y%m}/{0:%Y%m%d/%H%M}.necstdb".format(datetime.datetime.now())
             self.close_tables()
             self.db = necstdb.opendb(self.db_dir / self.db_path_date, mode = 'w')
             pass
