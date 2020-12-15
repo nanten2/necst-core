@@ -15,10 +15,10 @@ class db_logger_tp(object):
 
     def __init__(self):
         self.tp_topic_name = [
-            '/xffts_board01-tp',
-            '/xffts_board02-tp',
-            '/xffts_board03-tp',
-            '/xffts_board04-tp'
+            '/xffts_board01_tp',
+            '/xffts_board02_tp',
+            '/xffts_board03_tp',
+            '/xffts_board04_tp'
             ]
 
         self.db_dir = pathlib.Path.home() / 'data/total_power'
