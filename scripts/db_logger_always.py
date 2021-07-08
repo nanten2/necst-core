@@ -4,6 +4,7 @@ import time
 import datetime
 import threading
 from pathlib import Path
+from typing import Any, Dict, Tuple
 
 import necstdb
 
@@ -24,18 +25,18 @@ class db_logger_always:
         self.th = threading.Thread(target=self.loop)
         self.th.start()
 
-    def regist(self, data):
+    def regist(self, data: Any) -> None:
         self.data_list.append(data)
         return
 
-    def close_tables(self):
+    def close_tables(self) -> None:
         tables = self.table_dict
         self.receive_time_dict = {}
         self.table_dict = {}
         [tables[name].close() for name in tables]
         return
 
-    def check_date(self):
+    def check_date(self) -> None:
         now = datetime.datetime.now()
         if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(now):
             self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(now)
@@ -43,13 +44,14 @@ class db_logger_always:
             self.db = necstdb.opendb(self.db_dir / self.db_path_date, mode="w")
         return
 
-    def loop(self):
+    def loop(self) -> None:
         while True:
             if len(self.data_list) == 0:
                 self.close_tables()
                 if rospy.is_shutdown():
                     break
                 time.sleep(0.01)
+                continue
 
             d = self.data_list.pop(0)
 
@@ -62,69 +64,29 @@ class db_logger_always:
             else:
                 self.receive_time_dict[d["topic"]] = d["received_time"]
 
+            beam2_topic = [
+                "/xffts_board01",
+                "/xffts_board02",
+                "/xffts_board03",
+                "/xffts_board04",
+            ]
+            if d["topic"] in beam2_topic:
+                continue
+
             table_name = d["topic"].replace("/", "-").strip("-")
             table_data = [d["received_time"]]
             table_info = [{"key": "timestamp", "format": "d", "size": 8}]
 
             for slot in d["slots"]:
-                if slot["type"].startswith("bool"):
-                    slot["value"] = int(slot["value"])
-                    info = {"format": "i", "size": 4}
-
-                elif slot["type"].startswith("byte"):
-                    length = len(slot["value"])
-                    info = {
-                        "format": f"{length}s",
-                        "size": length,
-                    }
-
-                elif slot["type"].startswith("char"):
-                    # info = {"format": "c", "size": 1}
-                    raise NotImplementedError
-
-                elif slot["type"].startswith("float32"):
-                    info = {"format": "f", "size": 4}
-
-                elif slot["type"].startswith("float64"):
-                    info = {"format": "d", "size": 8}
-
-                elif slot["type"].startswith("int8"):
-                    info = {"format": "b", "size": 1}
-
-                elif slot["type"].startswith("int16"):
-                    info = {"format": "h", "size": 2}
-
-                elif slot["type"].startswith("int32"):
-                    info = {"format": "i", "size": 4}
-
-                elif slot["type"].startswith("int64"):
-                    info = {"format": "q", "size": 8}
-
-                elif slot["type"].startswith("string"):
-                    length = len(slot["value"])
-                    info = {
-                        "format": f"{length}s",
-                        "size": length,
-                    }
-                    if isinstance(slot["value"], str):
-                        slot["value"] = slot["value"].encode()
-
-                elif slot["type"].startswith("uint8"):
-                    info = {"format": "B", "size": 1}
-
-                elif slot["type"].startswith("uint16"):
-                    info = {"format": "H", "size": 2}
-
-                elif slot["type"].startswith("uint32"):
-                    info = {"format": "I", "size": 4}
-
-                elif slot["type"].startswith("uint64"):
-                    info = {"format": "Q", "size": 8}
+                try:
+                    slot, info = self.convert_format(slot)
+                except TypeError:
+                    continue
 
                 if isinstance(slot["value"], tuple):
-                    # for MultiArray
+                    # MultiArray
                     dlen = len(slot["value"])
-                    info["format"] = f"{dlen:d}{info['format']:s}"
+                    info["format"] = f"{dlen:d}{info['format']}"
                     info["size"] *= dlen
                     table_data += slot["value"]
                 else:
@@ -146,3 +108,40 @@ class db_logger_always:
 
             self.table_dict[table_name].append(*table_data)
         return
+
+    @staticmethod
+    def convert_format(slot: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        info = None
+        type_dict = {
+            "bool": {"format": "c", "size": 1},
+            "byte": {"format": "s", "size": None},
+            # "char": {},
+            "float32": {"format": "f", "size": 4},
+            "float64": {"format": "d", "size": 8},
+            "int8": {"format": "b", "size": 1},
+            "int16": {"format": "h", "size": 2},
+            "int32": {"format": "i", "size": 4},
+            "int64": {"format": "q", "size": 8},
+            "string": {"format": "s", "size": None},
+            "uint8": {"format": "B", "size": 1},
+            "uint16": {"format": "H", "size": 2},
+            "uint32": {"format": "I", "size": 4},
+            "uint64": {"format": "Q", "size": 8},
+        }
+        for type_, info_ in type_dict.items():
+            if slot["type"].startswith(type_):
+                info = info_
+
+        if info is None:
+            raise TypeError(f"Unsupported msg type {slot['type']}.")
+
+        if info["format"] == "s":
+            length = len(slot["value"])
+            info["format"] = f"{length:d}{info['format']}"
+            info["size"] = length
+        if (info["format"].find("s") != -1) and isinstance(slot["value"], str):
+            slot["value"] = slot["value"].encode()
+        if info["format"] == "i":
+            slot["value"] = int(slot["value"])
+
+        return slot, info
