@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # from . import db_logger_operation
-from . import db_logger_always
+import db_logger_always
 
 # from . import topic_monitor
 # import web_monitor

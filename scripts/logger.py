@@ -7,7 +7,7 @@ import rospy
 import std_msgs.msg  # noqa: F401
 import necst.msg  # noqa: F401
 
-from . import funclist
+import funclist
 
 NODE_NAME = "logger"
 
