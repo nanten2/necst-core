@@ -30,7 +30,7 @@ def get_current_topic_list() -> List[List[str]]:
     return topic_list
 
 
-def make_subscriber(topic: List[str, str]) -> None:
+def make_subscriber(topic: List[str]) -> None:
     topic_name = topic[0]
     topic_type = eval(topic[1].replace("/", ".msg."))
     rospy.Subscriber(
