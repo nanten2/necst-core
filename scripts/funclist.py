@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+from typing import List
+from collections.abc import Callable
+
 # from . import db_logger_operation
 import db_logger_always
 
@@ -12,7 +15,7 @@ db_logger_always = db_logger_always.db_logger_always()
 # web_monitor = web_monitor.web_monitor()
 
 
-def func_li():
+def func_li() -> List[Callable]:
     func_list = [
         # db_logger_operation.regist,
         db_logger_always.regist,

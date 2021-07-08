@@ -20,7 +20,7 @@ IGNORE_TYPES = [
 ]
 
 
-def get_current_topic_list() -> List[List[str, str]]:
+def get_current_topic_list() -> List[List[str]]:
     topic_list = rospy.get_published_topics()
     for topic in topic_list:
         if topic[0] in IGNORE_TOPICS:
