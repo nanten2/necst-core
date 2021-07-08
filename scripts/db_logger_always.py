@@ -36,12 +36,9 @@ class db_logger_always:
         return
 
     def check_date(self):
-        if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(
-            datetime.datetime.now()
-        ):
-            self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(
-                datetime.datetime.now()
-            )
+        now = datetime.datetime.now()
+        if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(now):
+            self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(now)
             self.close_tables()
             self.db = necstdb.opendb(self.db_dir / self.db_path_date, mode="w")
         return
@@ -60,10 +57,8 @@ class db_logger_always:
 
             if d["topic"] not in self.receive_time_dict:
                 self.receive_time_dict[d["topic"]] = d["received_time"]
-
             elif self.receive_time_dict[d["topic"]] - d["received_time"] < 10:
                 continue
-
             else:
                 self.receive_time_dict[d["topic"]] = d["received_time"]
 
@@ -73,7 +68,8 @@ class db_logger_always:
 
             for slot in d["slots"]:
                 if slot["type"].startswith("bool"):
-                    info = {"format": "c", "size": 1}
+                    slot["value"] = int(slot["value"])
+                    info = {"format": "i", "size": 4}
 
                 elif slot["type"].startswith("byte"):
                     length = len(slot["value"])
@@ -83,7 +79,8 @@ class db_logger_always:
                     }
 
                 elif slot["type"].startswith("char"):
-                    info = {"format": "c", "size": 1}
+                    # info = {"format": "c", "size": 1}
+                    raise NotImplementedError
 
                 elif slot["type"].startswith("float32"):
                     info = {"format": "f", "size": 4}
@@ -145,7 +142,6 @@ class db_logger_always:
                         "version": necstdb.__version__,
                     },
                 )
-
                 self.table_dict[table_name] = self.db.open_table(table_name, mode="ab")
 
             self.table_dict[table_name].append(*table_data)
