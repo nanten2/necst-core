@@ -95,8 +95,8 @@ ENV/
 .DS_Store
 
 # ROS
-CMakeLists.txt
-package.xml
+# CMakeLists.txt
+# package.xml
 
 # editor
 .vscode/
