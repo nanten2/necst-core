@@ -93,6 +93,9 @@ class db_logger_always:
 
     @staticmethod
     def create_info(slot: Dict[str, Any]) -> Tuple[Any, Dict[str, Any]]:
+        def str2bytes(dat):
+            return dat if isinstance(dat, bytes) else dat.encode("utf-8")
+
         conversion_table = {
             "bool": lambda d: (d, "?", 1),
             "byte": lambda d: (d, f"{len(d)}s", 1 * len(d)),
@@ -107,7 +110,7 @@ class db_logger_always:
             "uint16": lambda d: (d, "H", 2),
             "uint32": lambda d: (d, "I", 4),
             "uint64": lambda d: (d, "Q", 8),
-            "string": lambda d: (bytes(d), f"{len(d)}s", 1 * len(d)),
+            "string": lambda d: (str2bytes(d), f"{len(d)}s", 1 * len(d)),
         }
         for k in conversion_table.keys():
             if slot["type"].find(k) != -1:
