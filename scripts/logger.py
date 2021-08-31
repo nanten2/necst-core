@@ -7,7 +7,7 @@ import rospy
 import std_msgs.msg
 import necst.msg
 
-from . import funclist
+import funclist
 
 node_name = "logger"
 
