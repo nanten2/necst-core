@@ -19,7 +19,7 @@ IGNORE_TYPES = [
     "unknown type",
 ]
 
-ROSMsg = Union[std_msgs.msg, necst.msg]
+ROSMsg = Union["std_msgs.msg", "necst.msg"]
 
 
 def get_current_topic_list() -> List[Tuple[str, str]]:
