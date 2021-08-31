@@ -15,6 +15,7 @@ class db_logger_always:
         self.db_dir = Path.home() / "data" / "always"
         self.db_path_date = ""
         self.data_list = []
+        self.table_dict = {}
 
         self.th = threading.Thread(target=self.loop)
         self.th.start()
