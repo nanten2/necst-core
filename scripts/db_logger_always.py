@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import time
-import datetime
+from datetime import datetime
 import threading
 from pathlib import Path
 from typing import Any, Dict, Tuple
