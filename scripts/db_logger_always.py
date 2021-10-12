@@ -97,20 +97,20 @@ class db_logger_always:
             return dat if isinstance(dat, bytes) else dat.encode("utf-8")
 
         conversion_table = {
-            "bool": lambda d: (d, "?", 1),
-            "byte": lambda d: (d, f"{len(d)}s", 1 * len(d)),
-            "char": lambda d: (d, "c", 1),
-            "float32": lambda d: (d, "f", 4),
-            "float64": lambda d: (d, "d", 8),
-            "int8": lambda d: (d, "b", 1),
-            "int16": lambda d: (d, "h", 2),
-            "int32": lambda d: (d, "i", 4),
-            "int64": lambda d: (d, "q", 8),
-            "uint8": lambda d: (d, "B", 1),
-            "uint16": lambda d: (d, "H", 2),
-            "uint32": lambda d: (d, "I", 4),
-            "uint64": lambda d: (d, "Q", 8),
-            "string": lambda d: (str2bytes(d), f"{len(d)}s", 1 * len(d)),
+            "bool": lambda dat: (dat, "?", 1),
+            "byte": lambda dat: (dat, f"{len(dat)}s", 1 * len(dat)),
+            "char": lambda dat: (dat, "c", 1),
+            "float32": lambda dat: (dat, "f", 4),
+            "float64": lambda dat: (dat, "d", 8),
+            "int8": lambda dat: (dat, "b", 1),
+            "int16": lambda dat: (dat, "h", 2),
+            "int32": lambda dat: (dat, "i", 4),
+            "int64": lambda dat: (dat, "q", 8),
+            "uint8": lambda dat: (dat, "B", 1),
+            "uint16": lambda dat: (dat, "H", 2),
+            "uint32": lambda dat: (dat, "I", 4),
+            "uint64": lambda dat: (dat, "Q", 8),
+            "string": lambda dat: (str2bytes(dat), f"{len(dat)}s", 1 * len(dat)),
         }
         for k in conversion_table.keys():
             if slot["type"].find(k) != -1:
