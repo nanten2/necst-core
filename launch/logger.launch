@@ -1,3 +1,5 @@
 <launch>
     <node pkg="necst-core" name="logger" type="logger.py" />
+    <!-- Below is helper module -->
+    <node pkg="necst-core" name="SG_read" type="SG_read.py" />
 </launch>
