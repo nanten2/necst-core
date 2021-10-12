@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="necst-core" name="db_logger_always" type="db_logger_always.py" />
-</launch>
