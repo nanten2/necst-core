@@ -94,7 +94,10 @@ class db_logger_always:
     @staticmethod
     def create_info(slot: Dict[str, Any]) -> Tuple[Any, Dict[str, Any]]:
         def str2bytes(dat):
-            return dat if isinstance(dat, bytes) else dat.encode("utf-8")
+            try:
+                return dat if isinstance(dat, bytes) else dat.encode("utf-8")
+            except AttributeError:
+                return (str2bytes(elem) for elem in dat)
 
         conversion_table = {
             "bool": lambda dat: (dat, "?", 1),
@@ -117,8 +120,12 @@ class db_logger_always:
                 data, format_, size = conversion_table[k](slot["value"])
 
         if isinstance(data, tuple):
-            if isinstance(data, (str, bytes)):
-                format_ = format_ * len(data)  # Because 5s5s5s is ok, but 35s is not.
+            if format_.find("s") != 0:
+                if len(data) == 0:
+                    format_ = "0s"
+                else:
+                    format_ = format_ * len(data)
+                    # Because 5s5s5s is ok, but 35s is not.
             else:
                 format_ = f"{len(data)}{format_}"
             size *= len(data)
