@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="necst-core" name="logger" type="logger.py" />
+</launch>

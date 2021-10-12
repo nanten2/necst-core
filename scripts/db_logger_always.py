@@ -1,50 +1,46 @@
-#!usr/bin/env python3
-
-name  = 'db_logger_always'
+#!/usr/bin/env python3
 
 import time
-import datetime
+from datetime import datetime
 import threading
+from pathlib import Path
+from typing import Any, Dict, Tuple
+
 import necstdb
-import pathlib
-
 import rospy
-import std_msgs.msg
 
-class db_logger_always(object):
 
-    def __init__(self):
-        self.db_dir = pathlib.Path.home() / 'data/always'
-        self.db_path_date = ''
+class db_logger_always:
+    def __init__(self) -> None:
+        self.db_dir = Path.home() / "data" / "always"
+        self.db_path_date = ""
         self.data_list = []
-        self.receive_time_dict ={}
         self.table_dict = {}
 
-        self.th = threading.Thread(target= self.loop)
+        self.th = threading.Thread(target=self.loop)
         self.th.start()
-        pass
 
-    def regist(self, data):
+    def regist(self, data) -> None:
         self.data_list.append(data)
         return
-    
-    def close_tables(self):
+
+    def close_tables(self) -> None:
         tables = self.table_dict
         self.receive_time_dict = {}
         self.table_dict = {}
-        [tables[name].close() for name in tables]   
-        return
+        [tables[name].close() for name in tables]
 
-    def check_date(self):
-        if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now()):
-            self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(datetime.datetime.now())
+    def check_date(self) -> None:
+        now = datetime.now()
+        if self.db_path_date != "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(now):
+            self.db_path_date = "{0:%Y%m}/{0:%Y%m%d}.necstdb".format(now)
             self.close_tables()
-            self.db = necstdb.opendb(self.db_dir / self.db_path_date, mode = 'w')
+            self.db = necstdb.opendb(self.db_dir / self.db_path_date, mode="w")
             pass
         return
-   
-    def loop(self):
-        while True:    
+
+    def loop(self) -> None:
+        while True:
             if len(self.data_list) == 0:
                 self.close_tables()
                 if rospy.is_shutdown():
@@ -53,96 +49,87 @@ class db_logger_always(object):
                 continue
 
             d = self.data_list.pop(0)
-
+            # data_list: Dict[str, Any]
+            #  - "topic": str
+            #  - "received_time": float
+            #  - "slots": Dict[str, Any]
+            #   - "key": str
+            #   - "type": str
+            #   - "value": Union[Any, List[Any]]
             self.check_date()
 
-            if d['topic'] not in self.receive_time_dict:
-                self.receive_time_dict[d['topic']] = d['received_time']
-
-            elif self.receive_time_dict[d['topic']] - d['received_time'] < 10:
-                continue   
-
+            if d["topic"] not in self.receive_time_dict:
+                self.receive_time_dict[d["topic"]] = d["received_time"]
+            elif self.receive_time_dict[d["topic"]] - d["received_time"] < 10:
+                continue  # Skip time inconsistent data.
             else:
-                 self.receive_time_dict[d['topic']] = d['received_time'] 
-                 pass
+                self.receive_time_dict[d["topic"]] = d["received_time"]
+                pass
 
-            table_name = d['topic'].replace('/', '-').strip('-')
-            table_data = [d['received_time']]
-            table_info = [{'key': 'timestamp',
-                           'format': 'd',
-                           'size': 8}]
+            table_name = d["topic"].replace("/", "-").strip("-")
+            table_data = [d["received_time"]]
+            table_info = [{"key": "received_time", "format": "d", "size": 8}]
 
-            for slot in d['slots']:
-                if slot['type'].startswith('bool'):
-                    info = {'format': 'c', 'size': 1}
+            for slot in d["slots"]:
+                data, info = self.create_info(slot)
 
-                elif slot['type'].startswith('byte'):
-                    info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
-
-                elif slot['type'].startswith('char'):
-                    info = {'format': 'c', 'size': 1}
-
-                elif slot['type'].startswith('float32'):
-                    info = {'format': 'f', 'size': 4}
-
-                elif slot['type'].startswith('float64'):
-                    info = {'format': 'd', 'size': 8}
-
-                elif slot['type'].startswith('int8'):
-                    info = {'format': 'b', 'size': 1}
-
-                elif slot['type'].startswith('int16'):
-                    info = {'format': 'h', 'size': 2}
-
-                elif slot['type'].startswith('int32'):
-                    info = {'format': 'i', 'size': 4}
-
-                elif slot['type'].startswith('int64'):
-                    info = {'format': 'q', 'size': 8}
-
-                elif slot['type'].startswith('string'):
-                    info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
-                    #print('always : ' + slot['value'])
-                    if isinstance(slot['value'], str):
-                        slot['value'] = slot['value'].encode()
-                        pass
-
-                elif slot['type'].startswith('uint8'):
-                    info = {'format': 'B', 'size': 1}
-
-                elif slot['type'].startswith('unit16'):
-                    info = {'format': 'H', 'size': 2}
-
-                elif slot['type'].startswith('unit32'):
-                    info = {'format': 'I', 'size': 4}
-
-                elif slot['type'].startswith('unit64'):
-                    info = {'format': 'Q', 'size': 8}
-                else:
-                    continue
-
-                if isinstance(slot['value'], tuple):
-                    # for MultiArray
-                    dlen = len(slot['value'])
-                    info['format'] = '{0:d}{1:s}'.format(dlen, info['format'])
-                    info['size'] *= dlen
-                    table_data += slot['value']
-                else:
-                    table_data += [slot['value']]
-                    pass
-
-                info['key'] = slot['key']
                 table_info.append(info)
-                continue
+                table_data.extend(data)
 
             if table_name not in self.table_dict:
-                self.db.create_table(table_name,
-                            {'data': table_info,
-                             'memo': 'generated by db_logger_operation',
-                             'version': necstdb.__version__,})
-
-                self.table_dict[table_name] = self.db.open_table(table_name, mode='ab')
+                self.db.create_table(
+                    table_name,
+                    {
+                        "data": table_info,
+                        "memo": "generated by db_logger_always",
+                        "version": necstdb.__version__,
+                    },
+                )
+                self.table_dict[table_name] = self.db.open_table(table_name, mode="ab")
                 pass
 
             self.table_dict[table_name].append(*table_data)
-        return   
+        return
+
+    @staticmethod
+    def create_info(slot: Dict[str, Any]) -> Tuple[Any, Dict[str, Any]]:
+        def str2bytes(dat):
+            try:
+                return dat if isinstance(dat, bytes) else dat.encode("utf-8")
+            except AttributeError:
+                return (str2bytes(elem) for elem in dat)
+
+        conversion_table = {
+            "bool": lambda dat: (dat, "?", 1),
+            "byte": lambda dat: (dat, f"{len(dat)}s", 1 * len(dat)),
+            "char": lambda dat: (dat, "c", 1),
+            "float32": lambda dat: (dat, "f", 4),
+            "float64": lambda dat: (dat, "d", 8),
+            "int8": lambda dat: (dat, "b", 1),
+            "int16": lambda dat: (dat, "h", 2),
+            "int32": lambda dat: (dat, "i", 4),
+            "int64": lambda dat: (dat, "q", 8),
+            "uint8": lambda dat: (dat, "B", 1),
+            "uint16": lambda dat: (dat, "H", 2),
+            "uint32": lambda dat: (dat, "I", 4),
+            "uint64": lambda dat: (dat, "Q", 8),
+            "string": lambda dat: (str2bytes(dat), f"{len(dat)}s", 1 * len(dat)),
+        }
+        for k in conversion_table.keys():
+            if slot["type"].find(k) != -1:
+                data, format_, size = conversion_table[k](slot["value"])
+
+        if isinstance(data, tuple):
+            if format_.find("s") != 0:
+                if len(data) == 0:
+                    format_ = "0s"
+                else:
+                    format_ = format_ * len(data)
+                    # Because 5s5s5s is ok, but 35s is not.
+            else:
+                format_ = f"{len(data)}{format_}"
+            size *= len(data)
+            data = list(data)
+        else:
+            data = [data]
+        return data, {"key": slot["key"], "format": format_, "size": size}
