@@ -24,7 +24,7 @@ ROSMsg = Union["std_msgs.msg", "necst.msg"]
 
 def get_current_topic_list() -> List[Tuple[str, str]]:
     topic_list = rospy.get_published_topics()
-    for topic in topic_list:
+    for topic in topic_list.copy():
         if topic[0] in IGNORE_TOPICS:
             topic_list.remove(topic)
         elif topic[1] in IGNORE_TYPES:
