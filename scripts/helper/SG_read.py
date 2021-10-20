@@ -14,7 +14,6 @@ def reader():
             name = f"sg_{band}_{stage}"
             name_list.append(name)
 
-    rate = rospy.Rate(0.2)
     pub_freq_list = []
     pub_power_list = []
     pub_onoff_list = []
@@ -34,10 +33,11 @@ def reader():
         msg_onoff = Int32(-1)
 
         [publisher.publish(msg_freq) for publisher in pub_freq_list]
+        time.sleep(2)
         [publisher.publish(msg_power) for publisher in pub_power_list]
+        time.sleep(2)
         [publisher.publish(msg_onoff) for publisher in pub_onoff_list]
-
-        rate.sleep()
+        time.sleep(2)
 
 
 if __name__ == "__main__":
